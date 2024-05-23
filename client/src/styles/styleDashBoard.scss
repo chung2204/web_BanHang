@@ -1,0 +1,133 @@
+.container-dashboard {
+    width: 100%;
+    height: auto;
+    position: relative;
+
+    .wrap-header-dasboard {
+        width: 84%;
+        background-color: pink;
+        position: fixed;
+        height: 50px;
+        top: 0;
+        left: 16%;
+    }
+
+    .wrap-navbar-dasboard {
+        width: 16%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 2px #dbcaca dashed;
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+
+        .nav-dashboard {
+            display: flex;
+            height: auto;
+            flex-direction: column;
+            padding: 0 15px;
+            list-style-type: none;
+
+            .nav-dash3 {
+                display: flex;
+                height: auto;
+                flex-direction: column;
+                align-content: center;
+                align-items: center;
+                cursor: pointer;
+                text-decoration: none;
+                font-size: 18px;
+                font-weight: bold;
+                color: #636363;
+
+                img {
+                    border-radius: 50%;
+                    width: 110px;
+                }
+
+                p {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    margin: 10px 0;
+                }
+            }
+
+            .nav-dash2 {
+                background-color: rgba(145, 158, 171, 0.12) !important;
+            }
+
+            .act-nav-dashboard {
+                background-color: rgba(24, 119, 242, 0.08) !important;
+                color: rgb(24, 119, 242) !important;
+            }
+
+            .nav-dash {
+                -webkit-tap-highlight-color: transparent;
+                background-color: transparent;
+                outline: 0px;
+                border: 0px;
+                margin: 5px 0px;
+                cursor: pointer;
+                user-select: none;
+                vertical-align: middle;
+                appearance: none;
+                display: flex;
+                -webkit-box-flex: 1;
+                flex-grow: 1;
+                -webkit-box-pack: start;
+                justify-content: flex-start;
+                -webkit-box-align: center;
+                align-items: center;
+                position: relative;
+                text-decoration: none;
+                min-width: 0px;
+                box-sizing: border-box;
+                text-align: left;
+                padding: 8px 16px;
+                transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+                min-height: 44px;
+                border-radius: 6px;
+                line-height: 1.57143;
+                font-size: 0.875rem;
+                font-family: "Public Sans", sans-serif;
+                font-weight: 500;
+                color: rgb(99, 115, 129);
+                text-transform: capitalize;
+                height: 45px;
+
+                p {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                img {
+                    margin-right: 10px;
+                    width: 25px;
+                    height: 25px;
+                }
+            }
+        }
+    }
+
+    .wrap-content {
+        overflow-y: auto;
+        width: 84%;
+        margin-left: 16%;
+        margin-top: 50px;
+
+        .content-dasboard {
+            height: auto;
+            padding: 20px;
+
+            .title {
+                color: red;
+            }
+        }
+    }
+
+}

@@ -11,14 +11,14 @@ import avt from '../../assets/image/avatar_25.jpg';
 const Navbar = (props) => {
     return (
         <>
-            <ul class="nav-dashboard">
+            <ul className="nav-dashboard">
                 <li>
-                    <NavLink to="/admin" exact className="nav-dash3" >
+                    <NavLink to="/admin" className="nav-dash3" >
                         <img src={avt} alt="" /> <p>Admin</p>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/admin" exact className="nav-dash nav-dash2" >
+                    <NavLink to="/admin" className="nav-dash nav-dash2" >
                         <img src={ic_analytics} alt="" /><p>  dashbroad</p>
                     </NavLink>
                 </li>

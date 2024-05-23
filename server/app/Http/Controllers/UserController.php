@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -30,27 +32,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate dữ liệu từ request
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'birthday' => 'required|date',
-                'email' => 'required|string|email|max:255|unique:users',
+                'email' => 'required|string|max:255',
                 'phone' => 'required|string|max:15',
-                'username' => 'required|string|max:50|unique:users',
+                'username' => 'required|string|max:50',
                 'password' => 'required|string|min:6',
             ]);
 
-            // Tạo một người dùng mới dựa trên dữ liệu được xác thực
+         
             $user = User::create($validatedData);
 
-            // Trả về thông tin của người dùng mới được tạo
             return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
         } catch (\Exception $e) {
-            // Xử lý lỗi và trả về thông báo lỗi
-            return response()->json(['error' => 'An error occurred while adding user'], 500);
+            Log::error('Error adding user: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while adding ', 'details' => $e->getMessage()], 500);
         }
     }
-
     /**
      * Display the specified resource.
      */

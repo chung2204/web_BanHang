@@ -23,12 +23,12 @@ const Navbar = (props) => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showuser" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="showUser" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_user} alt="" /><p> Người dùng</p>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showproduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="showProduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_category} alt="" /><p> Danh mục</p>
                     </NavLink>
                 </li>
@@ -38,7 +38,7 @@ const Navbar = (props) => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showproduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="showProduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_cart} alt="" /><p> Sản phẩm</p>
                     </NavLink>
                 </li>

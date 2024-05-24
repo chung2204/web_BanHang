@@ -53,9 +53,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($users_id)
     {
-        return "show";
+        $show = User::findOrFail($users_id);
+        return response()->json($show);
+     
     }
 
     /**
@@ -69,16 +71,51 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        return "update";
+        $user = User::findOrFail($id);
+
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'birthday' => 'required|date',
+            'email' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
+            'username' => 'required|string|max:50',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'birthday' => $request->birthday,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'username' => $request->username,
+            'password' => $request->password ,
+        ]);
+
+        return response()->json($user);
+        
+       
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        return "destroy";
+        $delete = User::destroy($id);
+        return response()->json($delete);
+        // if (!$user) {
+        //     return response()->json(['error' => 'User not found'], 404);
+        // }
+    
+        // try {
+        //     $user->delete();
+        //     return response()->json(null, 204);
+        // } catch (\Exception $e) {
+        //     return response()->json(['error' => 'Failed to delete user'], 500);
+        // }
+    
     }
 }

@@ -1,58 +1,80 @@
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from "../../../api";
 const ShowUser = () => {
-    const [userData, setUserData] = useState({
-        name: '',
-        birthday: '',
-        email: '',
-        phone: '',
-        username: '',
-        password: ''
-    });
+    const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [usersPerPage] = useState(2);
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setUserData({ ...userData, [name]: value });
-    };
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('http://localhost/web_BanHang/server/public/users', userData);
-            alert('User added successfully!');
-            // Reset form after successful submission
-            setUserData({
-                name: '',
-                birthday: '',
-                email: '',
-                phone: '',
-                username: '',
-                password: ''
-            });
-        } catch (error) {
-            if (error.response && error.response.data && error.response.data.error) {
-                setError(error.response.data.error);
-            } else {
-                setError('loi');
-            }
+    useEffect(() => {
+        api.get('/users')
+            .then(response => setUsers(response.data))
+            .catch(error => console.error(error));
+    }, []);
+
+    const deleteUser = (id) => {
+        if (window.confirm('Are you sure you want to delete this user?')) {
+            api.delete(`/users/${id}`)
+                .then(() => {
+                    setUsers(users.filter(user => user.users_id !== id));
+                    setError(''); // Clear any previous error
+                })
+                .catch(error => {
+                    console.error(error);
+                    setError('Error deleting user. Please try again.');
+                });
         }
     };
+    return (
+        <>
+            <div className="title">
+                <span>DetailUser</span>
+                <Link to="/admin/addUser">them user</Link>
+            </div>
+            <ul>
+                {currentUsers.map(user => (
+                    <li key={user.id}>
+                        {user.name}-
+                        {user.birthday}-
+                        {user.users_id}-
+                        <Link to={`/admin/updateUser/${user.users_id}`}>Edit</Link>
+                        <button onClick={() => deleteUser(user.users_id)}>Delete</button>
+                    </li>
+                ))}
+            </ul>
+            <Pagination
+                usersPerPage={usersPerPage}
+                totalUsers={users.length}
+                paginate={paginate}
+            />
+        </>
+    );
+};
+const Pagination = ({ usersPerPage, totalUsers, paginate, currentPage }) => {
+    const pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(totalUsers / usersPerPage); i++) {
+        pageNumbers.push(i);
+    }
 
     return (
-        <div>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="name" value={userData.name} onChange={handleChange} placeholder="Name" required />
-                <input type="date" name="birthday" value={userData.birthday} onChange={handleChange} placeholder="Birthday" required />
-                <input type="email" name="email" value={userData.email} onChange={handleChange} placeholder="Email" required />
-                <input type="text" name="phone" value={userData.phone} onChange={handleChange} placeholder="Phone" required />
-                <input type="text" name="username" value={userData.username} onChange={handleChange} placeholder="Username" required />
-                <input type="password" name="password" value={userData.password} onChange={handleChange} placeholder="Password" required />
-                <button type="submit">Add User</button>
-            </form>
-        </div>
+        <nav>
+            <ul className='pagination'>
+                {pageNumbers.map(number => (
+                    <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+                        <button onClick={() => paginate(number)} className='page-link'>
+                            {number}
+                        </button>
+                    </li>
+                ))}
+            </ul>
+        </nav>
     );
 };
 

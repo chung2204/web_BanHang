@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShoppingCard extends Model
 {
+    protected $primaryKey = 'shopping_cards_id';
     protected $table = 'shopping_cards';
     protected $fillable=[
         'total_prices',

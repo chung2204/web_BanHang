@@ -19,7 +19,7 @@ class UserController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%");
+                $q->where('username', 'LIKE', "%{$search}%");
                 //   ->orWhere('email', 'LIKE', "%{$search}%");
             });
         }
@@ -43,12 +43,13 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
+           
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'birthday' => 'required|date',
                 'email' => 'required|string|max:255',
-                'phone' => 'required|string|max:15',
-                'username' => 'required|string|max:50',
+                'phone' => 'required|string|max:11',
+                'username' => 'required|string|max:50|unique:users,username',
                 'password' => 'required|string|min:6',
             ]);
 

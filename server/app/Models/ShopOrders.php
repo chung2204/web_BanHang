@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShopOrders extends Model
 {
+    protected $primaryKey = 'shop_orders_id';
     protected $table = 'shop_orders';
     protected $fillable=[
         'date_order',

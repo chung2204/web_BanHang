@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from "../../../api";
 
@@ -32,7 +31,7 @@ function UpdateUser() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-
+    console.log(error);
     const handleSubmit = (e) => {
         e.preventDefault();
         api.put(`/users/${id}`, form)
@@ -48,70 +47,55 @@ function UpdateUser() {
 
     return (
         <div>
-            <h1>Edit User</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Birthday</label>
-                    <input
-                        type="date"
-                        name="birthday"
-                        value={form.birthday}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Phone</label>
-                    <input
-                        type="text"
-                        name="phone"
-                        value={form.phone}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Username</label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={form.username}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={form.password}
-                        onChange={handleChange}
-                    />
-                </div>
-                <button type="submit">Update User</button>
-            </form>
+            <div className="title">
+                <span>Cập nhật tài khoản {form.username}</span>
+
+                <Link className="link-add" to="/admin/ShowUser">
+                    Quay lại</Link>
+            </div>
+            <div className="form-add">
+                <form onSubmit={handleSubmit} className="form">
+                    <div className="row-form">
+                        <label>
+                            <input className="input" type="text" name="name" value={form.name} onChange={handleChange}
+                                placeholder="" required />
+                            <span>Họ tên</span>
+                        </label>
+                        <label>
+                            <input className="input" type="date" name="birthday" value={form.birthday} onChange={handleChange}
+                                placeholder="" required />
+                            <span>Ngày sinh</span>
+                        </label>
+                    </div>
+                    <div className="row-form">
+                        <label>
+                            <input className="input" type="email" name="email" value={form.email} onChange={handleChange}
+                                placeholder="" required />
+                            <span>Email</span>
+                        </label>
+                        <label>
+                            <input className="input" type="text" name="phone" value={form.phone} onChange={handleChange}
+                                placeholder="" required pattern="[0-9]{10}" />
+                            <span>Số điện thoại</span>
+                        </label>
+                    </div>
+                    <div className="row-form">
+                        <label>
+                            <input className="input" type="text" name="username" value={form.username} onChange={handleChange}
+                                readOnly placeholder="" required pattern=".{5,50}" title="Tài khoản dài 5->50 ký tự" />
+                            <span className="inp-adm">Tài khoản</span>
+                        </label>
+                        <label>
+                            <input className="input" type="text" name="password" value={form.password} onChange={handleChange}
+                                placeholder="" required pattern=".{6,50}" title="Mật khẩu 6->50 ký tự" />
+                            <span>Mật khẩu</span>
+                        </label>
+                    </div>
+                    <div className="row-formbtn">
+                        <button className="submit" type="submit">Cập nhật</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

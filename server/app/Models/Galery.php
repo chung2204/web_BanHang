@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Galery extends Model
 {
+    protected $primaryKey = 'galeries_id';
     protected $table = 'galeries';
     protected $fillable=[
         'thumbnail',

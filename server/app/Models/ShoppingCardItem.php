@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ShoppingCardItem extends Model
 {
+    protected $primaryKey = 'shopping_card_items_id';
     protected $table = 'shopping_card_items';
     protected $fillable=[
         'name_product',

@@ -12,10 +12,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return $users;
+        $query = User::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+                //   ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $users = $query->get();
+
+        return response()->json($users);
     }
 
     /**

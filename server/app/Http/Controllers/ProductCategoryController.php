@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProductCategory;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
@@ -20,13 +21,12 @@ class ProductCategoryController extends Controller
                 $q->where('category_name', 'LIKE', "%{$search}%");
             });
         }
-        
-        $categories = $categories->get();
-        
-        foreach ($categories as $category) {
-            $category->total_products = Product::where('product_categories_id', $category->product_categories_id)->count();
-        }
+    
+        $categories = $categories->withCount('products')->get();
+       
         return response()->json($categories);
+
+        
     }
 
     /**
@@ -42,7 +42,15 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+           
+        $request->validate([
+            'category_name' => 'required|string|max:100|unique:product_categories,category_name',
+        ]);
+        $category = new ProductCategory();
+        $category->category_name = $request->input('category_name');
+        $category->save();
+
+        return response()->json($category, 201);
     }
 
     /**
@@ -64,16 +72,33 @@ class ProductCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProductCategory $productCategory)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'category_name' => 'required|string|max:100|unique:product_categories,category_name,' . $id . ',product_categories_id',
+        ]);
+
+        $category = ProductCategory::findOrFail($id);
+        $category->category_name = $request->input('category_name');
+        $category->save();
+
+        return response()->json($category, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductCategory $productCategory)
+    public function destroy($id)
     {
-        //
+        $category = ProductCategory::findOrFail($id);
+        
+        // Kiểm tra nếu danh mục có sản phẩm
+        if (Product::where('product_categories_id', $id)->exists()) {
+            return response()->json(['error' => 'Danh mục này đang có sản phẩm'],404);
+        }
+
+        $category->delete();
+
+        return response()->json(null, 204);
     }
 }

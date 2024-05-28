@@ -28,12 +28,12 @@ const Navbar = (props) => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showProduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="showCategory" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_category} alt="" /><p> Danh mục</p>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showproduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="showBrand" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_brand} alt="" /><p> Thương hiệu</p>
                     </NavLink>
                 </li>
@@ -43,12 +43,12 @@ const Navbar = (props) => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showproduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="/admin" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_bill} alt="" /><p> Hoá Đơn</p>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="showproduct" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
+                    <NavLink to="/admin" className={({ isActive }) => "nav-dash" + (isActive ? ' act-nav-dashboard' : '')} >
                         <img src={ic_feedback} alt="" /><p>Phản hồi</p>
                     </NavLink>
                 </li>

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\BrandController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,7 @@ Route::get('/csrf-cookie', function () {
 });
 Route::apiResource('users', UserController::class);
 Route::apiResource('categories', ProductCategoryController::class);
+Route::apiResource('brand', BrandController::class);
 // Route::group(['prefix' => 'users'], function () {
 //     Route::get('/', [UserController::class, 'index']);
 //     Route::post('/', [UserController::class, 'store']);

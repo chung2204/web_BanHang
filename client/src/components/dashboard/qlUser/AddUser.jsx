@@ -51,7 +51,7 @@ const AddUser = () => {
                     Quay lại</Link>
             </div>
             <div className="form-add">
-                <form onSubmit={handleSubmit} className="form">
+                <form onSubmit={handleSubmit} className="form" style={{ width: '70%' }}>
                     <div className="row-form">
                         <label>
                             <input className="input" type="text" name="name" value={userData.name} onChange={handleChange}

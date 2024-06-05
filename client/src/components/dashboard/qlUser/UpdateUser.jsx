@@ -31,7 +31,7 @@ function UpdateUser() {
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
-    console.log(error);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         api.put(`/users/${id}`, form)
@@ -86,8 +86,8 @@ function UpdateUser() {
                             <span className="inp-adm">Tài khoản</span>
                         </label>
                         <label>
-                            <input className="input" type="text" name="password" value={form.password} onChange={handleChange}
-                                placeholder="" required pattern=".{6,50}" title="Mật khẩu 6->50 ký tự" />
+                            <input className="input" type="password" name="password" value={form.password} onChange={handleChange}
+                                placeholder="" required pattern=".{6,150}" title="Mật khẩu 6->50 ký tự" />
                             <span>Mật khẩu</span>
                         </label>
                     </div>

@@ -1,10 +1,12 @@
+import React, { useState } from 'react';
 import {
     Route,
     Routes
 } from "react-router-dom";
 import App from '../App';
 import HomeContainer from '../layouts/HomeContainer';
-import LoginContainer from '../pages/LoginContainer';
+import Login from '../pages/Login';
+import Register from '../pages/Register';
 import DashBoardContainer from '../layouts/Dashboard';
 import ShowUser from '../components/dashboard/qlUser/ShowUser';
 import DashBoard from '../components/dashboard/DashBoard';
@@ -17,27 +19,29 @@ import ShowCategory from "../components/dashboard/qlCategory/ShowCategory";
 import ShowBrand from "../components/dashboard/qlBrand/ShowBrand";
 
 const Router = () => {
+
     return (
         <>
             <Routes>
 
                 <Route path='/' element={<App />} >
-                    <Route path='user' element={<LoginContainer />} />
+                    <Route path='login' element={<Login />} />
+                    <Route path='register' element={<Register />} />
                     <Route index element={<HomeContainer />} />
                 </Route>
                 <Route path='/admin' element={<DashBoardContainer />}>
                     <Route path='showUser' element={<ShowUser />} />
-                    <Route path='addUser' element={<AddUser />} />
-                    <Route path='updateUser/:id' element={<UpdateUser />} />
+                    <Route path='showUser/addUser' element={<AddUser />} />
+                    <Route path='showUser/updateUser/:id' element={<UpdateUser />} />
 
                     <Route path='showCategory' element={<ShowCategory />} />
                     <Route path='showBrand' element={<ShowBrand />} />
 
 
                     <Route path='showProduct' element={<ShowProduct />} />
-                    <Route path='addProduct' element={<AddProduct />} />
-                    <Route path='updateProduct' element={<UpdateProduct />} />
-                    <Route index element={<DashBoard />} />
+                    <Route path='showProduct/addProduct' element={<AddProduct />} />
+                    <Route path='showProduct/updateProduct/:id' element={<UpdateProduct />} />
+                    <Route index element={<ShowUser />} />
                 </Route>
 
             </Routes>

@@ -282,6 +282,11 @@
                     .inp-update {
                         font-size: 15px;
                         font-family: "Public Sans", sans-serif;
+                        border: none;
+                        background-color: #d9d9d9;
+                        padding: 5px;
+                        border-radius: 9px;
+                        width: 220px;
                     }
 
                     .act-form {
@@ -360,11 +365,213 @@
 
                     }
                 }
+
+                .show-product {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+
+                    .product {
+                        width: 30%;
+                        border: 1px solid black;
+                        margin: 10px;
+                        padding: 10px;
+                        border-radius: 10px;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+
+                        .img {
+                            width: 100%;
+                        }
+
+                        .ctr {
+                            display: flex;
+                            flex-direction: row;
+
+                            .btn-update {
+                                background-color: rgb(127, 255, 150);
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+
+                                a {
+                                    text-decoration: none;
+                                    color: black;
+                                    font-size: 16px;
+                                    font-weight: 600;
+                                }
+                            }
+
+                            .btn-delete {
+                                background-color: rgb(255, 127, 127);
+                            }
+
+                            .btn-update,
+                            .btn-delete {
+                                width: 80px;
+                                height: 35px;
+                                margin: 0 10px;
+                                border: none;
+                                border-radius: 10px;
+                                color: black;
+                                font-size: 16px;
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
             }
 
             .form-add {
                 display: flex;
                 justify-content: center;
+            }
+
+            .form-addProduct {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .form-left {
+                    width: 60%;
+                    border-radius: 20px;
+                    background-color: white;
+                    box-sizing: border-box;
+                    padding: 20px;
+                    box-shadow: 2px 2px 5px;
+
+                    .col-lab {
+                        width: 100%;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-around;
+
+                    }
+
+                    .name {
+                        width: 100%;
+
+                    }
+
+                    .description {
+                        width: 100%;
+                        height: 80px;
+                        font-size: 14px;
+                        margin: 10px 0;
+                        border-radius: 7px;
+                        border: none;
+                        background-color: #efeaea;
+                        padding-left: 10px;
+                    }
+
+                    input,
+                    select {
+                        height: 30px;
+                        font-size: 14px;
+                        margin: 10px 0;
+                        border-radius: 7px;
+                        border: none;
+                        background-color: #efeaea;
+                        padding-left: 10px;
+                    }
+                }
+
+                .btn-submit {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    button {
+                        width: 80%;
+                        border-radius: 13px;
+                        font-weight: 600;
+                        background-color: #00bfffab;
+                        height: 40px;
+                        margin: 15px 0;
+                        border: none;
+                        cursor: pointer;
+                    }
+                }
+
+                .form-right {
+                    width: 38%;
+                    border-radius: 20px;
+                    background-color: white;
+                    box-sizing: border-box;
+                    padding: 20px;
+                    box-shadow: 2px 2px 5px;
+
+                    .show-img {
+                        width: 100%;
+
+                        img {
+                            width: 100%;
+                            padding-bottom: 20px;
+                        }
+
+                        .list-img {
+                            width: 100%;
+                            display: flex;
+                            flex-direction: row;
+                            flex-wrap: wrap;
+
+                            img {
+                                width: 33%;
+                            }
+                        }
+                    }
+                }
+
+                .title {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: row;
+
+                    h3 {
+                        margin: 0;
+                    }
+
+                    button {
+                        display: flex;
+                        flex-direction: row;
+                        border-radius: 5px;
+                        border: 1px solid;
+                        cursor: pointer;
+                    }
+                }
+
+                .details-product {
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+
+                    textarea {
+                        height: 80px;
+                        font-size: 14px;
+                        margin: 10px 0;
+                        border-radius: 7px;
+                        border: none;
+                        background-color: #efeaea;
+                        padding-left: 10px;
+                    }
+
+                    .btn-delete {
+                        width: 50px;
+                        height: 30px;
+                        margin: 0 10px;
+                        border: none;
+                        border-radius: 10px;
+                        color: black;
+                        font-size: 13px;
+                        font-weight: 500;
+                        background-color: #ff6363;
+                        cursor: pointer;
+                    }
+                }
+
             }
         }
 
@@ -398,7 +605,7 @@
             label .input {
                 color: #333;
                 width: 350px;
-                padding: 15px 5px 10px 10px;
+                padding: 10px 5px 10px 10px;
                 outline: 0;
                 border: 1px solid rgba(105, 105, 105, 0.397);
                 border-radius: 10px;
@@ -423,7 +630,7 @@
             label input:valid+span,
             .inp-adm {
                 color: #00bfff !important;
-                top: -12.5px !important;
+                top: -13.5px !important;
                 font-size: 0.9em !important;
                 font-weight: 600;
             }

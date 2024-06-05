@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductDetailsController;
+use App\Http\Controllers\GaleryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,8 +26,13 @@ Route::get('/csrf-cookie', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
 Route::apiResource('users', UserController::class);
+Route::post('login', [UserController::class, 'login']);
+Route::post('logout', [UserController::class, 'logout']);
 Route::apiResource('categories', ProductCategoryController::class);
 Route::apiResource('brand', BrandController::class);
+Route::apiResource('product', ProductController::class);
+Route::apiResource('product_details', ProductDetailsController::class);
+Route::apiResource('galery', GaleryController::class);
 // Route::group(['prefix' => 'users'], function () {
 //     Route::get('/', [UserController::class, 'index']);
 //     Route::post('/', [UserController::class, 'store']);

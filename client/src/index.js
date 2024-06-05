@@ -20,7 +20,6 @@ root.render(
       draggable
       pauseOnHover
       theme="light"
-
     />
     <BrowserRouter>
       <Routerr />

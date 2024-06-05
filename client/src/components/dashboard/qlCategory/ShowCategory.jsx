@@ -169,7 +169,7 @@ const ShowCategory = () => {
                         <tr>
                             <th className="col-1">STT</th>
                             <th> Tên danh mục</th>
-                            <th>Tổng số sản phẩm</th>
+                            <th style={{ textAlign: 'center' }}>Tổng số sản phẩm</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
@@ -177,7 +177,7 @@ const ShowCategory = () => {
                         {currentUsers.map((category, index) => (
                             <tr key={category.product_categories_id}>
                                 <th className="col-1" style={{ width: '100px' }}>{stt + index + 1}</th>
-                                <td style={{ width: '300px' }}>
+                                <td style={{ width: '250px' }}>
                                     {abc === 'true' ?
                                         category.category_name :
                                         <>
@@ -188,7 +188,7 @@ const ShowCategory = () => {
                                         </>
                                     }
                                 </td>
-                                <td style={{ width: '250px' }}>{category.products_count}</td>
+                                <td style={{ width: '250px', textAlign: 'center' }}>{category.products_count}</td>
                                 <th className="act-form">
                                     <div className="btn-update">
                                         {abc === 'true' ?

@@ -25,13 +25,16 @@ class Product extends Model
     public function brand(){
         return $this->belongsTo(Brand::class,'brands_id');
     }
-    public function productDetails(){
-        return $this->hasMany(ProductFetails::class);
+    public function details()
+    {
+        return $this->hasMany(ProductDetails::class, 'products_id', 'products_id');
     }
     public function shoppingCardItem(){
         return $this->hasMany(ShoppingCardItem::class);
     }
-    public function galery(){
-        return $this->hasMany(Galery::class);
+    
+    public function galeries()
+    {
+        return $this->hasMany(Galery::class, 'products_id', 'products_id');
     }
 }

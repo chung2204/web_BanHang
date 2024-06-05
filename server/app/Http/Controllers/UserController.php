@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -46,15 +47,35 @@ class UserController extends Controller
            
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
-                'birthday' => 'required|date',
-                'email' => 'required|string|max:255',
-                'phone' => 'required|string|max:11',
+                'birthday' => 'date',
+                'email' => 'string|max:255',
+                'phone' => 'string|max:11',
                 'username' => 'required|string|max:50|unique:users,username',
                 'password' => 'required|string|min:6',
             ]);
-
-         
-            $user = User::create($validatedData);
+            $birthday = $request->input('birthday');
+            $email = $request->input('email');
+            $phone = $request->input('phone');
+            if(isset($birthday)&& isset($email) &&isset($phone)){
+                $user = User::create([
+                    'name' => $request->name,
+                    'birthday' => $request->birthday,
+                    'email' =>  $request->email,
+                    'phone' => $request->phone,
+                    'username' => $request->username,
+                    'password' => Hash::make($request->password),
+                ]);
+            }else{
+                $user = User::create([
+                    'name' => $request->name,
+                    'birthday' => "1900-01-01",
+                    'email' => " ",
+                    'phone' =>" ",
+                    'username' => $request->username,
+                    'password' => Hash::make($request->password),
+                ]);
+            }
+          
 
             return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
         } catch (\Exception $e) {
@@ -71,7 +92,31 @@ class UserController extends Controller
         return response()->json($show);
      
     }
+    public function login(Request $request)
+    {
+        $credentials = $request->only('username', 'password');
 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $user = Auth::user();
+
+            return response()->json([
+                'message' => 'Login successful',
+                'user' => $user
+            ], 200);
+        }
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return response()->json(['message' => 'Logout successful'], 200);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -103,7 +148,7 @@ class UserController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'username' => $request->username,
-            'password' => $request->password ,
+            'password' =>Hash::make($request->password),
         ]);
 
         return response()->json($user);

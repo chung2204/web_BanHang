@@ -59,7 +59,7 @@ const ShowUser = () => {
             <div className="title">
                 <span>Người dùng</span>
 
-                <Link className="link-add" to="/admin/addUser">
+                <Link className="link-add" to="/admin/showUser/addUser">
                     <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                         className="component-iconify MuiBox-root css-1t9pz9x iconify iconify--eva" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2"></path>
@@ -106,7 +106,7 @@ const ShowUser = () => {
                                 <td>{user.email}</td>
                                 <td>{user.phone}</td>
                                 <td>{formatDate(user.birthday)}</td>
-                                <th className=""><Link to={`/admin/updateUser/${user.users_id}`}><img src={ic_edit} alt="" /></Link> <span>&nbsp;&nbsp;/&nbsp;</span>
+                                <th className=""><Link to={`/admin/showUser/updateUser/${user.users_id}`}><img src={ic_edit} alt="" /></Link> <span>&nbsp;&nbsp;/&nbsp;</span>
                                     <button onClick={() => deleteUser(user.users_id, user.username)}><img src={ic_delete} alt="" /></button></th>
                             </tr>
                         ))}

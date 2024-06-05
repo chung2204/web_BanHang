@@ -198,7 +198,7 @@ const ShowBrand = () => {
                             <th className="col-1">STT</th>
                             <th> Tên thương hiệu</th>
                             <th> Địa chỉ</th>
-                            <th>Tổng số sản phẩm</th>
+                            <th style={{ textAlign: 'center' }}>Tổng số sản phẩm</th>
                             <th>Chức năng</th>
                         </tr>
                     </thead>
@@ -209,14 +209,14 @@ const ShowBrand = () => {
                                     <th className="col-1" style={{ width: '100px' }}>{stt + index + 1}</th>
                                     {inpUpdate === true ?
                                         <>
-                                            <td>{category.name}</td>
-                                            <td>{category.address}</td>
+                                            <td style={{ width: '280px' }}>{category.name}</td>
+                                            <td style={{ width: '310px' }}>{category.address}</td>
                                         </> :
                                         <>
                                             {inpUpdate === category.name ?
                                                 <>
-                                                    <td> < input className="inp-update" name="name" type="text" value={newCategoryName.name} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
-                                                    <td> < input className="inp-update" name="address" type="text" value={newCategoryName.address} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
+                                                    <td style={{ width: '280px' }}> < input className="inp-update" name="name" type="text" value={newCategoryName.name} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
+                                                    <td style={{ width: '310px' }}> < input style={{ width: "300px" }} className="inp-update" name="address" type="text" value={newCategoryName.address} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
                                                 </>
 
                                                 : <>
@@ -226,7 +226,7 @@ const ShowBrand = () => {
                                             }
                                         </>
                                     }
-                                    <td style={{ width: '250px' }}>{category.products_count}</td>
+                                    <td style={{ width: '250px', textAlign: 'center' }}>{category.products_count}</td>
                                     <th className="act-form">
                                         <div className="btn-update">
                                             {inpUpdate === true ?

@@ -4,7 +4,7 @@ const Header = (props) => {
         <>
             <nav>
                 <NavLink to="/" >Home    |</NavLink>
-                <NavLink to="/user" >login</NavLink>
+                <NavLink to="/login" >login</NavLink>
             </nav>
 
         </>

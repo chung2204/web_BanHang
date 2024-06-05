@@ -28,7 +28,27 @@ class GaleryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $gale = $request->input('galeries', []);
+        $galery = $request->input('galeries');
+        $id = $request->input('products_id');
+        Galery::where('products_id', $id)->delete();
+        if(isset($galery)){
+            foreach ($request->file('galeries') as $index => $galeryFile) {
+                $galeryModel = new Galery();
+                
+                if (isset($galeryFile['thumbnail'])) {
+                    $thumbnailName = time() . '_' . $galeryFile['thumbnail']->getClientOriginalName();
+                    $galeryFile['thumbnail']->move(public_path('images'), $thumbnailName);
+                    $galeryModel->thumbnail = 'images/' . $thumbnailName;
+                }
+                $galeryModel->description = $gale[$index]['description'] ?? "";
+                $galeryModel->products_id = $request->input('products_id');
+                $galeryModel->save();
+            }
+        }
+       
+
+        return response()->json($gale, 201);
     }
 
     /**

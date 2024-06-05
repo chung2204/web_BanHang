@@ -47,7 +47,7 @@ const AddUser = () => {
             <div className="title">
                 <span>Thêm người dùng</span>
 
-                <Link className="link-add" to="/admin/ShowUser">
+                <Link className="link-add" to="/admin/showUser">
                     Quay lại</Link>
             </div>
             <div className="form-add">
@@ -84,7 +84,7 @@ const AddUser = () => {
                         </label>
                         <label>
                             <input className="input" type="password" name="password" value={userData.password} onChange={handleChange}
-                                placeholder="" required pattern=".{6,50}" title="Mật khẩu 6->50 ký tự" autoComplete="new-password" />
+                                placeholder="" required pattern=".{6,150}" title="Mật khẩu 6->50 ký tự" autoComplete="new-password" />
                             <span>Mật khẩu</span>
                         </label>
                     </div>

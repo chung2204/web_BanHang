@@ -28,7 +28,14 @@ class FeedBackController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated= $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'string',
+            'phone' => 'string|max:11',
+            'feedback' => 'string',
+        ]);
+        $feedback = FeedBack::create($validated);
+        return response()->json($feedback, 201);
     }
 
     /**

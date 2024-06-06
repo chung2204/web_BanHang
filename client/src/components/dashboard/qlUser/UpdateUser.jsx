@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import api from "../../../api";
 
 function UpdateUser() {
@@ -75,7 +75,7 @@ function UpdateUser() {
                         </label>
                         <label>
                             <input className="input" type="text" name="phone" value={form.phone} onChange={handleChange}
-                                placeholder="" required pattern="[0-9]{10}" />
+                                placeholder="" required />
                             <span>Số điện thoại</span>
                         </label>
                     </div>

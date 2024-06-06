@@ -97,16 +97,18 @@ class UserController extends Controller
         $credentials = $request->only('username', 'password');
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
             $user = Auth::user();
+            $user->load('shoppingCard');
 
             return response()->json([
                 'message' => 'Login successful',
                 'user' => $user
-            ], 200);
+            ]);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return response()->json([
+            'message' => 'Login failed'
+        ], 401);
     }
 
     public function logout(Request $request)

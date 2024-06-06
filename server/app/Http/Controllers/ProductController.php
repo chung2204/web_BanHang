@@ -43,9 +43,11 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function getProductsNew()
+    {
+        $products = Product::orderBy('created_at', 'desc')->take(10)->get();
+        return response()->json($products);
+    }
     public function store(Request $request)
     {
         $request->validate([

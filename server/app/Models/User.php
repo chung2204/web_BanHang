@@ -20,13 +20,12 @@ class User extends Model implements AuthenticatableContract
         'username',  
         'password',  
     ];
-    public function feedBack(){
-        return $this->hasMany(FeedBack::class);
-    }
-    public function shoppingCard(){
-        return $this->hasMany(ShoppingCard::class);
-    }
+   
     public function shopOrders(){
         return $this->hasMany(ShopOrders::class);
+    }
+    public function shoppingCard()
+    {
+        return $this->hasOne(ShoppingCard::class, 'users_id');
     }
 }

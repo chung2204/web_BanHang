@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('feed_backs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone');
             $table->text('feedback');
-            $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('users_id')->on('users')->onUpdate('cascade');
             $table->timestamps();
         });
     }

@@ -7,6 +7,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductDetailsController;
 use App\Http\Controllers\GaleryController;
+use App\Http\Controllers\FeedBackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +32,10 @@ Route::post('logout', [UserController::class, 'logout']);
 Route::apiResource('categories', ProductCategoryController::class);
 Route::apiResource('brand', BrandController::class);
 Route::apiResource('product', ProductController::class);
+Route::get('getproduct', [ProductController::class, 'getProductsNew']);
 Route::apiResource('product_details', ProductDetailsController::class);
 Route::apiResource('galery', GaleryController::class);
+Route::apiResource('feedback', FeedBackController::class);
 // Route::group(['prefix' => 'users'], function () {
 //     Route::get('/', [UserController::class, 'index']);
 //     Route::post('/', [UserController::class, 'store']);

@@ -4,7 +4,6 @@ import {
     Routes
 } from "react-router-dom";
 import App from '../App';
-import HomeContainer from '../layouts/HomeContainer';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import DashBoardContainer from '../layouts/Dashboard';
@@ -17,7 +16,9 @@ import AddUser from "../components/dashboard/qlUser/AddUser";
 import UpdateUser from "../components/dashboard/qlUser/UpdateUser";
 import ShowCategory from "../components/dashboard/qlCategory/ShowCategory";
 import ShowBrand from "../components/dashboard/qlBrand/ShowBrand";
+import User from '../pages/User';
 
+import Home from '../pages/Home';
 const Router = () => {
 
     return (
@@ -27,7 +28,8 @@ const Router = () => {
                 <Route path='/' element={<App />} >
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
-                    <Route index element={<HomeContainer />} />
+                    <Route path='user/:id' element={<User />} />
+                    <Route index element={<Home />} />
                 </Route>
                 <Route path='/admin' element={<DashBoardContainer />}>
                     <Route path='showUser' element={<ShowUser />} />

@@ -31,9 +31,10 @@ class GaleryController extends Controller
         $gale = $request->input('galeries', []);
         $galery = $request->input('galeries');
         $id = $request->input('products_id');
-        Galery::where('products_id', $id)->delete();
+       
         if(isset($galery)){
-            foreach ($request->file('galeries') as $index => $galeryFile) {
+            Galery::where('products_id', $id)->delete();
+            foreach ($request->file('galeries',[]) as $index => $galeryFile) {
                 $galeryModel = new Galery();
                 
                 if (isset($galeryFile['thumbnail'])) {

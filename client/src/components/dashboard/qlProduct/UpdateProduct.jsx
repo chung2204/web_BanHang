@@ -44,8 +44,10 @@ const UpdateProduct = () => {
                 const productData = response.data;
                 const img = urlImage + productData.image;
                 const initialPreviewImages = productData.galeries.map(galery => urlImage + galery.thumbnail);
+                const listImg = productData.galeries.map(galery => galery.thumbnail);
                 setPreviewImages(initialPreviewImages);
                 setPreviewImage(img);
+
             });
         }
     }, [id]);
@@ -260,6 +262,7 @@ const UpdateProduct = () => {
                         <button type="button" onClick={addGalery}> <img src={ic_add} alt="" style={{ width: '18px' }} />Thêm ảnh</button>
                     </div>
                     {product.galeries.map((galery, index) => (
+
                         <div key={index} className='galery'>
                             <input type="file" name="thumbnail" required onChange={(e) => handleGaleryChange(index, e)} />
                             <div className='details-product'>

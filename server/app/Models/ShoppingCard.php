@@ -10,11 +10,13 @@ class ShoppingCard extends Model
     protected $primaryKey = 'shopping_cards_id';
     protected $table = 'shopping_cards';
     protected $fillable=[
+        'total_product',
         'total_prices',
         'users_id', 
     ];
-    public function user(){
-        return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'users_id', 'users_id');
     }
     public function shopOrders(){
         return $this->hasMany(ShopOrders::class);

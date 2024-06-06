@@ -3,11 +3,12 @@ import api from "../api";
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import UserContext from '../UserContext';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost/web_BanHang/server/public';
 
 const Login = () => {
+    const navigate = useNavigate();
     const { setUser } = useContext(UserContext);
     const [formData, setFormData] = useState({
         username: '',
@@ -25,12 +26,14 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
             const response = await api.post('/login', formData);
+            const userData = response.data.user;
             setMessage(response.data.message);
-            localStorage.setItem('user', JSON.stringify(response.data.user));
-            setUser(response.data.user);
-            toast.success('Đăng nhập thành công')
+            localStorage.setItem('user', JSON.stringify(userData));
+            setUser(userData);
+            navigate('/');
         } catch (error) {
             setMessage('Login failed');
             toast.error('Tài khoản hoặc mật khẩu không chính xác')

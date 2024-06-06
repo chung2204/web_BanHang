@@ -10,11 +10,10 @@ class FeedBack extends Model
    
     protected $table = 'feed_backs';
     protected $fillable=[
-        'title',
-        'feedback', 
-        'users_id',  
+        'name',
+        'email',
+        'phone',
+        'feedback'
     ];
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
+   
 }

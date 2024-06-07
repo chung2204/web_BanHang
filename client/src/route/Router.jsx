@@ -17,8 +17,11 @@ import UpdateUser from "../components/dashboard/qlUser/UpdateUser";
 import ShowCategory from "../components/dashboard/qlCategory/ShowCategory";
 import ShowBrand from "../components/dashboard/qlBrand/ShowBrand";
 import User from '../pages/User';
-
 import Home from '../pages/Home';
+import Contact from '../pages/Contact';
+import About from '../pages/About';
+import Product from '../pages/Product';
+import ProductDetail from '../pages/ProductDetail';
 const Router = () => {
 
     return (
@@ -28,6 +31,10 @@ const Router = () => {
                 <Route path='/' element={<App />} >
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
+                    <Route path='about' element={<About />} />
+                    <Route path='contact' element={<Contact />} />
+                    <Route path='product' element={<Product />} />
+                    <Route path='productdetail/:id' element={<ProductDetail />} />
                     <Route path='user/:id' element={<User />} />
                     <Route index element={<Home />} />
                 </Route>

@@ -55,7 +55,6 @@ const Footer = () => {
                         </div>
                         <div className="footer-mobile-hidden">
                             <div className="footer__title mt-5-">Kết nối với chúng tôi</div>
-
                             <div className="d-flex flex-wrap">
                                 <a target="_blank" href="https://www.facebook.com" className="footer__social" rel="nofollow noopener">
                                     <svg width="15" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -83,9 +82,7 @@ const Footer = () => {
                                     </svg>
                                 </a>
                             </div>
-
                         </div>
-
                     </div>
                     <div className="footer__col2">
                         <div className="footer__title ">Liên hệ với chúng tôi

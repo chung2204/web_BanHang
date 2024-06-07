@@ -72,7 +72,7 @@ const User = () => {
                             </label>
                             <label>
                                 <input className="input" type="text" name="phone" value={form.phone} onChange={handleChange}
-                                    placeholder="" required />
+                                    pattern="[0-9]{9,11}" placeholder="" required />
                                 <span>Số điện thoại</span>
                             </label>
                         </div>

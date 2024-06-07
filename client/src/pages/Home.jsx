@@ -102,12 +102,12 @@ const Home = () => {
                         <Slider {...settingSlide}>
                             {products.map(product => (
                                 <div className='item-product' data-aos="fade-up">
-                                    <li key={product.id}>
+                                    <li key={product.products_id}>
                                         <img src={urlImage + product.image} alt={product.name} />
                                         <h3>{product.name}</h3>
                                         <p>{formatCurrency(product.prices)}</p>
                                         <div className='link-productdetail'>
-                                            <Link to={`productdeatils/${product.id}`}>Chi tiết</Link>
+                                            <Link to={`productdetail/${product.products_id}`}>Chi tiết</Link>
                                         </div>
                                     </li>
                                 </div>
@@ -118,11 +118,13 @@ const Home = () => {
                         <Slider {...settingSlide}>
                             {products.map(product => (
                                 <div className='item-product' data-aos="fade-up">
-                                    <li key={product.id}>
+                                    <li key={product.products_id}>
                                         <img src={urlImage + product.image} alt={product.name} />
                                         <h3>{product.name}</h3>
                                         <p>Price: {product.prices}</p>
-                                        <Link to={`productdeatils/${product.id}`}>Chi tiết</Link>
+                                        <div className='link-productdetail'>
+                                            <Link to={`productdetail/${product.products_id}`}>Chi tiết</Link>
+                                        </div>
                                     </li>
                                 </div>
                             ))}

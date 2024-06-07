@@ -75,7 +75,7 @@ function UpdateUser() {
                         </label>
                         <label>
                             <input className="input" type="text" name="phone" value={form.phone} onChange={handleChange}
-                                placeholder="" required />
+                                placeholder="" required pattern="[0-9]{9,11}" />
                             <span>Số điện thoại</span>
                         </label>
                     </div>

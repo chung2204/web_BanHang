@@ -27,7 +27,6 @@ const App = () => {
     setUser(null);
     localStorage.removeItem('user');
     navigate('/');
-
   };
   return (
     <>

@@ -1,10 +1,11 @@
 
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../api';
-
+import UserContext from "../UserContext"
 const User = () => {
+    const { user, setUser } = useContext(UserContext);
     const { id } = useParams();
     const [form, setForm] = useState({
         name: '',
@@ -14,7 +15,7 @@ const User = () => {
         username: '',
         password: '',
     });
-
+    const navigate = useNavigate();
     const [error, setError] = useState('');
     useEffect(() => {
         api.get(`/users/${id}`)
@@ -37,17 +38,19 @@ const User = () => {
         api.put(`/users/${id}`, form)
             .then(() => {
                 setError('');
-                toast.success("cập nhật thông tin thành công")
+                toast.success("Cập nhật thông tin thành công")
+                setUser(form);
+
             })
             .catch(error => {
                 console.error(error);
-                setError('Error updating user. Please try again3.');
+                setError('Cập nhật thông tin thất bại');
             });
     };
     return (
         <>
             <div className='info-user'>
-                <div className="title">
+                <div className="title" >
                     <span>Thông tin tài khoản: {form.username}</span>
                 </div>
                 <div className="form-add">
@@ -72,7 +75,7 @@ const User = () => {
                             </label>
                             <label>
                                 <input className="input" type="text" name="phone" value={form.phone} onChange={handleChange}
-                                    pattern="[0-9]{9,11}" placeholder="" required />
+                                    placeholder="" required />
                                 <span>Số điện thoại</span>
                             </label>
                         </div>
@@ -83,7 +86,7 @@ const User = () => {
                                 <span className="inp-adm">Tài khoản</span>
                             </label>
                             <label>
-                                <input className="input" type="password" name="password" value={form.password} onChange={handleChange}
+                                <input className="input" type="password" name="password" onChange={handleChange}
                                     placeholder="" required pattern=".{6,150}" title="Mật khẩu 6->50 ký tự" />
                                 <span>Mật khẩu</span>
                             </label>

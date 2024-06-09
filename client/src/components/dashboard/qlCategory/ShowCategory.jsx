@@ -11,7 +11,7 @@ const ShowCategory = () => {
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage, setPerPage] = useState(2);
+    const [usersPerPage, setPerPage] = useState(5);
     const [editingCategory, setEditingCategory] = useState(null);
     const [newCategoryName, setNewCategoryName] = useState('');
     const [abc, setabc] = useState('true');

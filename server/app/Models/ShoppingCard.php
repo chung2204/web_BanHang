@@ -16,13 +16,12 @@ class ShoppingCard extends Model
     ];
     public function user()
     {
-        return $this->belongsTo(User::class, 'users_id', 'users_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
-    public function shopOrders(){
-        return $this->hasMany(ShopOrders::class);
-    }
-    public function shoppingCardItem(){
-        return $this->hasMany(ShoppingCardItem::class);
+   
+    public function items()
+    {
+        return $this->hasMany(ShoppingCardItem::class, 'shopping_cards_id');
     }
    
 }

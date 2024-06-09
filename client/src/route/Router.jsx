@@ -22,6 +22,10 @@ import Contact from '../pages/Contact';
 import About from '../pages/About';
 import Product from '../pages/Product';
 import ProductDetail from '../pages/ProductDetail';
+import ShoppingCard from '../pages/ShoppingCard';
+import Bill from '../pages/Bill';
+import ShowBill from '../components/dashboard/qlBill/ShowBill';
+import ShowFeedBack from '../components/dashboard/qlFeeedback/ShowFeedBack';
 const Router = () => {
 
     return (
@@ -35,7 +39,9 @@ const Router = () => {
                     <Route path='contact' element={<Contact />} />
                     <Route path='product' element={<Product />} />
                     <Route path='productdetail/:id' element={<ProductDetail />} />
+                    <Route path='shoppingcard/:id' element={<ShoppingCard />} />
                     <Route path='user/:id' element={<User />} />
+                    <Route path='bill/:id' element={<Bill />} />
                     <Route index element={<Home />} />
                 </Route>
                 <Route path='/admin' element={<DashBoardContainer />}>
@@ -45,6 +51,8 @@ const Router = () => {
 
                     <Route path='showCategory' element={<ShowCategory />} />
                     <Route path='showBrand' element={<ShowBrand />} />
+                    <Route path='showBill' element={<ShowBill />} />
+                    <Route path='showFeedBack' element={<ShowFeedBack />} />
 
 
                     <Route path='showProduct' element={<ShowProduct />} />

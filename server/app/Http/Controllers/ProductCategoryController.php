@@ -56,9 +56,10 @@ class ProductCategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProductCategory $productCategory)
+    public function show( $id)
     {
-        //
+        $show = ProductCategory::findOrFail($id);
+        return response()->json($show);
     }
 
     /**

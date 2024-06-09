@@ -40,12 +40,9 @@ const Header = () => {
                                     <li> <div onClick={handleLogout} className={"sub-menu-item"} >Đăng xuất</div></li>
                                 </ul>
                             </div>
-                            {user.shopping_card && (
-                                <>
-                                    <div className="menu-item"> <NavLink to={`shoppCart/${user.users_id}`} className={({ isActive }) => "nav-menu-item" + (isActive ? ' act-nav' : '')}>Giỏ hàng{user.shopping_card.total_product}</NavLink></div>
-                                </>
-                            )}
+                            <div className="menu-item"> <NavLink to={`shoppingcard/${user.users_id}`} className={({ isActive }) => "nav-menu-item" + (isActive ? ' act-nav' : '')}>Giỏ hàng
 
+                            </NavLink></div>
                         </>
                     ) : (
                         <>

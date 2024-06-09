@@ -14,16 +14,15 @@ return new class extends Migration
         Schema::create('shop_orders', function (Blueprint $table) {
             $table->id('shop_orders_id');
             $table->date('date_order');
-            $table->string('status_order',100);
-            $table->integer('total_prices');
             $table->string('full_name',100);
             $table->string('email',100);
-            $table->string('address');
             $table->string('phone',11);
+            $table->string('address');
+            $table->integer('total_prices');
+            $table->integer('total_product');
+            $table->string('status_order',100);
             $table->unsignedBigInteger('users_id');
-            $table->unsignedBigInteger('shopping_cards_id');
-            $table->foreign('shopping_cards_id')->references('shopping_cards_id')->on('shopping_cards')->onUpdate('cascade');
-            $table->foreign('users_id')->references('users_id')->on('users')->onUpdate('cascade');
+            $table->foreign('users_id')->references('users_id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

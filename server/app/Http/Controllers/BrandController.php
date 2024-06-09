@@ -58,9 +58,10 @@ class BrandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Brand $brand)
+    public function show( $id)
     {
-        //
+        $show = Brand::findOrFail($id);
+        return response()->json($show);
     }
 
     /**

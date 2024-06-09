@@ -34,8 +34,6 @@ const Register = () => {
         } else {
             toast.error("Mật khẩu không chính xác");
         }
-        console.log("pass >> " + userData.password);
-
     }
 
     return (

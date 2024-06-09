@@ -11,19 +11,19 @@ class ShopOrders extends Model
     protected $table = 'shop_orders';
     protected $fillable=[
         'date_order',
-        'status_order', 
-        'total_prices',  
         'full_name',  
         'email',  
-        'address',  
-        'phone',  
-        'users_id',  
-        'shopping_cards_id',    
+        'phone', 
+        'address',   
+        'total_prices',  
+        'total_product',  
+        'status_order', 
+        'users_id',   
     ];
     public function user(){
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'users_id');
     }
-    public function shoppingCard(){
-        return $this->belongsTo(ShoppingCard::class);
+    public function orderdetails(){
+        return $this->hasMany(ShopOrderDetails::class,'shop_orders_id');
     }
 }

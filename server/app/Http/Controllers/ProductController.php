@@ -34,7 +34,23 @@ class ProductController extends Controller
         return response()->json($products);
     }
     
-
+    public function updateTotal(Request $request)
+    {
+        $details = $request->input('details');
+        if(isset($details)){
+            foreach ($details as $detail) {
+                $product = Product::find($detail['products_id']);
+                if($product){
+                    $product->update([   
+                        'quantity' => $detail['total'] 
+                    ]);
+                }
+            }  
+        }
+       
+        return response()->json($details);
+    }
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -42,7 +58,16 @@ class ProductController extends Controller
     {
         //
     }
-
+    public function getProductsByCategory($categoryId = null)
+    {
+        if ($categoryId) {
+            $products = Product::where('product_categories_id', $categoryId)->get();
+        } else {
+            $products = Product::all();
+        }
+        
+        return response()->json($products);
+    }
     public function getProductsNew()
     {
         $products = Product::orderBy('created_at', 'desc')->take(10)->get();

@@ -10,9 +10,21 @@ class FeedBackController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $query = FeedBack::query();
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+                //   ->orWhere('email', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $users = $query->get();
+
+        return response()->json($users);
     }
 
     /**
@@ -65,8 +77,9 @@ class FeedBackController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FeedBack $feedBack)
+    public function destroy($id)
     {
-        //
+        $delete = FeedBack::destroy($id);
+        return response()->json($delete);
     }
 }

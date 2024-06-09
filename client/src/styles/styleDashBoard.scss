@@ -130,6 +130,7 @@
 
         .content-dasboard {
             height: auto;
+            min-height: 100vh;
             padding: 20px;
             position: relative;
 
@@ -657,6 +658,62 @@
             .submit:hover {
                 background-color: #00bfff96;
             }
+        }
+    }
+
+    .bill-page {
+        .item-bill {
+            border: 1px solid black;
+            box-sizing: border-box;
+            overflow: hidden;
+            margin-bottom: 100px;
+
+            caption {
+                padding: 0 20px;
+            }
+
+            .item {
+                text-align: center !important;
+            }
+
+            caption {
+                line-height: 1.5;
+            }
+        }
+    }
+
+    .feedback-page {
+        padding: 50px 20px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        .item-feedback {
+            padding: 20px;
+            background-color: #dedede;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+
+            span {
+                padding: 0 25px;
+            }
+
+            .icon-delete {
+                position: absolute;
+                top: -15px;
+                right: -15px;
+            }
+        }
+
+        .contentfb {
+            padding: 20px 0;
+            background-color: transparent;
         }
     }
 

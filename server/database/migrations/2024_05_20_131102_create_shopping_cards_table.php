@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('shopping_cards', function (Blueprint $table) {
             $table->id('shopping_cards_id');
-            $table->integer('total_product');
-            $table->integer('total_prices');
+            $table->integer('total_product')->default(0);
+            $table->integer('total_prices')->default(0);
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('users_id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

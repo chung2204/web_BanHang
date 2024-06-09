@@ -88,7 +88,8 @@ class UserController extends Controller
      */
     public function show($users_id)
     {
-        $show = User::findOrFail($users_id);
+        $show = User::findOrFail($users_id)->makeVisible('password');
+
         return response()->json($show);
      
     }
@@ -98,8 +99,6 @@ class UserController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            $user->load('shoppingCard');
-
             return response()->json([
                 'message' => 'Login successful',
                 'user' => $user
@@ -139,7 +138,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'birthday' => 'required|date',
             'email' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
+            'phone' => 'required|string|max:11',
             'username' => 'required|string|max:50',
             'password' => 'required|string|min:6',
         ]);

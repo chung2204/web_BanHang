@@ -9,7 +9,7 @@ const Product = () => {
     const [selectCategory, setSelectCategory] = useState(null);
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage, setPerPage] = useState(4);
+    const [usersPerPage, setPerPage] = useState(8);
     useEffect(() => {
         fetchCategories();
         const fetchProducts = async () => {
@@ -29,7 +29,7 @@ const Product = () => {
 
         fetchProducts();
     }, [selectCategory]);
-    const settingSlide = {
+    const slideProductPage = {
         dots: false,
         infinite: true,
         speed: 500,
@@ -81,20 +81,33 @@ const Product = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         setStt((pageNumber - 1) * usersPerPage);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
     const styleAcitive = {
-        color: 'blue',
-        fontWeight: 'bold'
+        color: 'white',
+        fontWeight: 'bold',
+        backgroundColor: '#32dbdb',
+        border: '1px solid #32dbdb'
     };
     const stylereAcitive = {
-        color: "black"
+        color: "#32dbdb",
+        backgroundColor: 'white'
+    };
+    const handleScrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
     return (
         <>
             <div className='product-page'>
                 <div className='container'>
-                    <Slider {...settingSlide} className='slide-category'>
+                    <Slider {...slideProductPage} className='slide-category'>
                         <div key={'all'}>
                             <p style={selectCategory === "all" ? styleAcitive : stylereAcitive} className='item-category' onClick={() => handleOnclick('all')}>Tất cả</p>
                         </div>
@@ -105,18 +118,21 @@ const Product = () => {
                             </div>
                         ))}
                     </Slider>
-                    <div className='product-item'>
+                    <div className='product-items'>
                         {currentUsers.map(product => (
-                            <div className='item-product' data-aos="fade-up">
-                                <li key={product.products_id}>
-                                    <img src={urlImage + product.image} alt={product.name} />
-                                    <h3>{product.name}</h3>
-                                    <p>{formatCurrency(product.prices)}</p>
-                                    <div className='link-productdetail'>
-                                        <Link to={`/productdetail/${product.products_id}`}>Chi tiết</Link>
+                            <>
+                                <div key={product.products_id} className='item-product' data-aos="fade-up">
+                                    <div className='container'>
+                                        <img src={urlImage + product.image} alt={product.name} />
+                                        <h3>{product.name}</h3>
+                                        <p>{formatCurrency(product.prices)}</p>
+                                        <div className='link-productdetail'>
+                                            <Link to={`/productdetail/${product.products_id}`} onClick={handleScrollToTop}>Chi tiết</Link>
+                                        </div>
+
                                     </div>
-                                </li>
-                            </div>
+                                </div>
+                            </>
                         ))}
                     </div>
                     <Pagination

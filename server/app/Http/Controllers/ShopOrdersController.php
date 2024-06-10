@@ -18,11 +18,11 @@ class ShopOrdersController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $bill->where(function ($q) use ($search) {
-                $q->where('full_name', 'LIKE', "%{$search}%");
+                $q->where('full_name', 'LIKE', "%{$search}%")->orWhere('status_order', 'LIKE', "%{$search}%");
             });
         }
 
-        $bill = $bill->get();
+        $bill = $bill->orderBy('created_at', 'desc')->get();
 
         return response()->json($bill);
     }
@@ -77,7 +77,7 @@ class ShopOrdersController extends Controller
     public function show($id = null)
     { 
         
-        $order = ShopOrders::with(['orderdetails'])->where('users_id', $id)->get();
+        $order = ShopOrders::with(['orderdetails'])->where('users_id', $id)->orderBy('created_at', 'desc')->get();
      
         return response()->json($order);
     }
@@ -106,8 +106,9 @@ class ShopOrdersController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ShopOrders $shopOrders)
+    public function destroy($id)
     {
-        //
+        $delete = ShopOrders::destroy($id);
+        return response()->json($delete);
     }
 }

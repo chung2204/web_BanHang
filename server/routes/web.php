@@ -31,6 +31,8 @@ Route::get('/csrf-cookie', function () {
 Route::apiResource('users', UserController::class);
 Route::post('login', [UserController::class, 'login']);
 Route::post('logout', [UserController::class, 'logout']);
+Route::put('updateinfo/{id}', [UserController::class, 'updateinfo']);
+Route::put('updatepass/{id}', [UserController::class, 'updatepass']);
 
 Route::post('/add-item', [ShoppingCardController::class, 'addItem']);
 Route::get('/card/{id}', [ShoppingCardController::class, 'showShoppingCardDetail']);

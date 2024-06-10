@@ -3,9 +3,6 @@ import React, { useState, useEffect } from 'react';
 import api from "../../../api";
 import { toast } from 'react-toastify';
 import ic_search from "../../../assets/icon/ic_search.svg";
-import ic_edit from "../../../assets/icon/ic_edit.svg";
-import ic_delete from "../../../assets/icon/ic_delete.svg";
-
 
 const ShowProduct = () => {
     const urlImage = process.env.REACT_APP_API_BASE_URL + "/";
@@ -14,14 +11,19 @@ const ShowProduct = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage, setPerPage] = useState(10);
     useEffect(() => {
-        api.get('/product')
-            .then((response) => {
+        fetchCategories();
+    }, [searchTerm]);
+    const fetchCategories = () => {
+        api.get('/product', {
+            params: { search: searchTerm }
+        })
+            .then(response => {
                 setProducts(response.data);
             })
-            .catch((error) => {
-                console.error('There was an error fetching the products!', error);
+            .catch(error => {
+                console.error(error);
             });
-    }, []);
+    };
     const handleSelectChange = (event) => {
         setPerPage(event.target.value);
     };
@@ -30,17 +32,17 @@ const ShowProduct = () => {
     const currentUsers = products.slice(indexOfFirstUser, indexOfLastUser);
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const deleteProduct = (id, username) => {
-        if (window.confirm(`Bạn có chắc muốn xoá tài khoản ${username}`)) {
+        if (window.confirm(`Bạn có chắc muốn xoá sản phẩm ${username}`)) {
             api.delete(`/product/${id}`)
                 .then(() => {
                     setProducts(products.filter(products => products.products_id !== id));
 
-                    toast.success(`Xoá tài khoản ${username} thành công`);
+                    toast.success(`Xoá sản phẩm ${username} thành công`);
                 })
                 .catch(error => {
                     console.error(error);
 
-                    toast.error(` Lỗi xoá tài khoản ${username}`);
+                    toast.error(` Lỗi xoá sản phẩm ${username}`);
                 });
         }
     };

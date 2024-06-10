@@ -8,7 +8,7 @@ const Home = () => {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
         autoplay: false,
         autoplaySpeed: 2000,
@@ -46,6 +46,12 @@ const Home = () => {
     }, []);
     const formatCurrency = (amount) => {
         return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    };
+    const handleScrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
     return (
         <>
@@ -98,7 +104,7 @@ const Home = () => {
                         <div className="text-center wow fadeInUp" >
                             <h5 className="section-title ff-secondary text-center text-primary fw-normal">Sản phẩm</h5>
                         </div>
-                        <h1 className="title-listproduct">Sản phẩm mới</h1>
+                        <h2 className="title-listproduct">Sản phẩm mới</h2>
                         <Slider {...settingSlide}>
                             {products.map(product => (
                                 <div className='item-product' data-aos="fade-up">
@@ -107,23 +113,24 @@ const Home = () => {
                                         <h3>{product.name}</h3>
                                         <p>{formatCurrency(product.prices)}</p>
                                         <div className='link-productdetail'>
-                                            <Link to={`productdetail/${product.products_id}`}>Chi tiết</Link>
+                                            <Link to={`productdetail/${product.products_id}`} onClick={handleScrollToTop}>Chi tiết</Link>
                                         </div>
                                     </li>
                                 </div>
                             ))}
                         </Slider>
 
-                        <h1 className="title-listproduct">Sản phẩm mới</h1>
+                        <h2 className="title-listproduct">Sản phẩm nổi bật</h2>
                         <Slider {...settingSlide}>
                             {products.map(product => (
                                 <div className='item-product' data-aos="fade-up">
                                     <li key={product.products_id}>
                                         <img src={urlImage + product.image} alt={product.name} />
+
                                         <h3>{product.name}</h3>
-                                        <p>Price: {product.prices}</p>
+                                        <p>{formatCurrency(product.prices)}</p>
                                         <div className='link-productdetail'>
-                                            <Link to={`productdetail/${product.products_id}`}>Chi tiết</Link>
+                                            <Link to={`productdetail/${product.products_id}`} onClick={handleScrollToTop}>Chi tiết</Link>
                                         </div>
                                     </li>
                                 </div>

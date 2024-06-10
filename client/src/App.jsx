@@ -11,9 +11,9 @@ import 'aos/dist/aos.css';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import api from './api';
 const App = () => {
   const [user, setUser] = useState(null);
-  const [shoppCard, setShoppCard] = useState(null);
 
   useEffect(() => {
     AOS.init();

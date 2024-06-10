@@ -1,26 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import api from "../api";
-import UserContext from "../UserContext"
 import { useParams } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
+import ic_delete from '../assets/icon/ic_delete.svg'
 const ShoppingCard = () => {
+    const urlImage = process.env.REACT_APP_API_IMAGE_URL;
     const { id } = useParams();
-    const { user, setUser } = useContext(UserContext);
     const [card, setCard] = useState([]);
     const [shopCard, setShopCard] = useState();
     const [userData, setUserData] = useState([]);
     const [address, setAddress] = useState('');
-    const [order, setOrder] = useState({
-        date_order: '',
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        total_prices: '',
-        total_product: '',
-        status_order: '',
-    });
-
     useEffect(() => {
         api.get(`/users/${id}`)
             .then(response => {
@@ -59,31 +48,47 @@ const ShoppingCard = () => {
         fetchShopCard();
         fetchCard();
     }, [id]);
-    const handleUpdateItem = async (id, total) => {
+    const handleUpdateItem = async (id_card, total, total_pr) => {
+        const newValue = total;
+        if (/^\d+$/.test(newValue) && parseInt(newValue) >= 0 && parseInt(newValue) < total_pr) {
+            api.post(`/updatecarditem/${id_card}`, {
+                users_id: id,
+                total: newValue,
+            }).then(() => {
+                fetchCard();
+                toast.success("Cập nhật giỏ hàng thành công")
+            })
+                .catch(error => {
+                    console.error(error);
 
-        try {
-            const response = await api.post(`/updatecarditem/${id}`, {
-                users_id: user.users_id,
-                total: total,
-            });
-            fetchCard();
-        } catch (error) {
-            console.error('Failed to update item', error);
+                });
+        } else {
+            toast.error("Lỗi! số lượng hàng trong kho còn" + total_pr)
         }
     };
-
-    const handleRemoveItem = async (id) => {
+    const handleKeyDown = (e) => {
+        if (e.key === '-' || e.key === 'e' || e.key === '.' || e.key === ',') {
+            e.preventDefault();
+        }
+    };
+    const handleRemoveItem = async (id_card) => {
         try {
-            const response = await api.post(`/removecarditem/${id}`, {
-                users_id: user.users_id
-            });
-            fetchCard();
+            api.post(`/removecarditem/${id_card}`, {
+                users_id: id
+            }).then(() => {
+                fetchCard();
+            })
+                .catch(error => {
+                    console.error(error);
+
+                });
+
         } catch (error) {
             console.error('Failed to remove item', error);
         }
     };
     if (card == null || Object.keys(card).length === 0) {
-        return <p>No items in the shopping card !</p>;
+        return <p style={{ width: "100%", textAlign: "center" }}>Bạn không có sản phẩm nào trong giỏ hàng !</p>;
     }
     const totalAmount = card.reduce((acc, item) => acc + item.prices * item.total, 0);
     const totalProduct = card.reduce((acc, item) => acc + item.total, 0);
@@ -139,68 +144,92 @@ const ShoppingCard = () => {
                         console.error(error);
 
                     });
+                toast.success('Đặt hàng thành công')
 
             })
             .catch(error => {
                 console.error(error);
 
             });
-
+    };
+    const formatCurrency = (amount) => {
+        return amount.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
     };
 
     return (
 
         <>
-            <div>
-                {card.map((item) => (
-                    <li key={item.shopping_card_items_id}>
-                        <p>Name: {item.name_product}</p>
-                        <p>Price: {item.prices}</p>
-                        <p>Total_product: {item.total_product}</p>
-                        <p>Total: {item.total}</p>
-                        <input
-                            type="number"
-                            value={item.total}
-                            onChange={(e) => handleUpdateItem(item.shopping_card_items_id, e.target.value)}
-                        />
-                        <button onClick={() => handleRemoveItem(item.shopping_card_items_id)}>Remove</button>
-                    </li>
-                ))}
-            </div>
-            tong tien : {totalAmount}
-            <div>
-                <form onSubmit={handleSubmit} className="form" style={{ width: '70%' }}>
-                    <div className="row-form">
-                        <label>
-                            <input className="input" type="text" name="name" value={userData.name} onChange={handleChange}
-                                placeholder="" required />
-                            <span>Họ tên</span>
-                        </label>
-                        <label>
-                            <input className="input" type="email" name="email" value={userData.email} onChange={handleChange}
-                                placeholder="" required />
-                            <span>Email</span>
-                        </label>
+            <div className='shopcard-page'>
+                <div className='container-shopcard'>
+                    <div className='content-left'>
+                        <div className='title'>
+                            <h2>Giỏ hàng</h2>
+                            {/* <div class="add-card">Cập nhật giỏ hàng</div> */}
+                        </div>
+                        {card.map((item) => (
+                            <>
+                                <div key={item.shopping_card_items_id} className='item-cards'>
+                                    <div style={{ width: "350px" }}>
+                                        <p>Tên sản phẩm: {item.name_product}</p>
+                                        <p>Giá: <span style={{ color: "red" }}>{formatCurrency(item.prices)}</span></p>
+                                    </div>
+                                    <img style={{ maxWidth: "150px" }} src={urlImage + item.image} alt="" />
+                                    <div>
+                                        <p>Số lượng kho: {item.total_product}</p>
+                                        <span>Số lượng mua: </span>
+                                        <input
+                                            style={{ width: "50px", textAlign: "center" }}
+                                            type="number"
+                                            value={item.total}
+                                            onChange={(e) => handleUpdateItem(item.shopping_card_items_id, e.target.value, item.total_product)}
+                                            onKeyDown={handleKeyDown}
+                                        />
+                                    </div>
+                                    <div> <img style={{ width: "25px", cursor: "pointer" }} src={ic_delete} onClick={() => handleRemoveItem(item.shopping_card_items_id)} /></div>
+                                </div>
+                                <hr />
+                            </>
+                        ))}
                     </div>
-                    <div className="row-form">
-                        <label>
-                            <input className="input" type="text" name="phone" value={userData.phone} onChange={handleChange}
-                                placeholder="" required />
-                            <span>Số điện thoại</span>
-                        </label>
-                        <label>
-                            <textarea name="address" id="address" cols="30" rows="10" onChange={handleChangeAddress} required></textarea>
-                            <span> address</span>
-                        </label>
-                    </div>
-                    <div className="row-formbtn">
-                        <button className="submit" type="submit">Thanh toan</button>
-                    </div>
+                    <div className='content-right'>
+                        <form onSubmit={handleSubmit} className="form">
+                            <div className="row-form">
+                                <label>
+                                    <input className="input" type="text" name="name" value={userData.name} onChange={handleChange}
+                                        placeholder="" required />
+                                    <span>Họ tên</span>
+                                </label>
+                            </div>
+                            <div className="row-form">
+                                <label>
+                                    <input className="input" type="email" name="email" value={userData.email} onChange={handleChange}
+                                        placeholder="" required />
+                                    <span>Email</span>
+                                </label>
+                            </div>
+                            <div className="row-form">
+                                <label>
+                                    <input className="input" type="text" name="phone" value={userData.phone} onChange={handleChange}
+                                        placeholder="" required />
+                                    <span>Số điện thoại</span>
+                                </label>
+                            </div>
+                            <div className="row-form">
+                                <label style={{ textAlign: "center" }}>
+                                    <textarea style={{ width: "300px" }} placeholder='Nhập địa chỉ' name="address" id="address" cols="30" rows="10" onChange={handleChangeAddress} required></textarea>
+                                </label>
+                            </div>
+                            <p>Tổng số sản phẩm : {totalProduct}</p>
+                            <p> Tổng tiền : <span style={{ color: "red" }}>{formatCurrency(totalAmount)}</span></p>
+                            <div className="row-formbtn">
+                                <button className="submit" type="submit">Đặt hàng</button>
+                            </div>
 
-                </form>
+                        </form>
+                    </div>
+                </div>
             </div>
         </>
-
     );
 };
 export default ShoppingCard;

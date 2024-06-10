@@ -36,7 +36,7 @@ const Header = () => {
 
                                     <li>  <NavLink to={`user/${user.users_id}`} className={({ isActive }) => "sub-menu-item" + (isActive ? ' act-nav' : '')}>Tài khoản</NavLink></li>
                                     <li>  <NavLink to={`bill/${user.users_id}`} className={({ isActive }) => "sub-menu-item" + (isActive ? ' act-nav' : '')}>Hoá đơn</NavLink></li>
-                                    <li> {user.name === "Admin" ? <NavLink to="admin" className={"sub-menu-item"} >Quản trị</NavLink> : ""}</li>
+                                    <li> {user.username === "Admin" ? <NavLink to="admin" className={"sub-menu-item"} >Quản trị</NavLink> : ""}</li>
                                     <li> <div onClick={handleLogout} className={"sub-menu-item"} >Đăng xuất</div></li>
                                 </ul>
                             </div>

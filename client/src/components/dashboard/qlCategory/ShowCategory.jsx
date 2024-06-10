@@ -107,6 +107,10 @@ const ShowCategory = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         setStt((pageNumber - 1) * usersPerPage);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
     return (
         <>

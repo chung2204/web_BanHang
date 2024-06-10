@@ -266,7 +266,7 @@ const UpdateProduct = () => {
                         <div key={index} className='galery'>
                             <input type="file" name="thumbnail" required onChange={(e) => handleGaleryChange(index, e)} />
                             <div className='details-product'>
-                                <textarea name="description" required style={{ width: '80%' }} placeholder="Mô tả" value={galery.description} onChange={(e) => handleGaleryChange(index, e)} />
+                                <textarea name="description" required style={{ width: '80%' }} placeholder="Alt" value={galery.description} onChange={(e) => handleGaleryChange(index, e)} />
                                 <button type="button" className='btn-delete' onClick={() => removeGalery(index)}>xoá</button>
                             </div>
                         </div>

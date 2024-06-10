@@ -679,6 +679,12 @@
             caption {
                 line-height: 1.5;
             }
+
+            .delete-bill {
+                width: 25px;
+                cursor: pointer;
+                transform: translateY(5px);
+            }
         }
     }
 
@@ -708,6 +714,7 @@
                 position: absolute;
                 top: -15px;
                 right: -15px;
+                cursor: pointer;
             }
         }
 

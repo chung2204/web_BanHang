@@ -9,6 +9,7 @@
         border-radius: 1rem;
         overflow: hidden;
         margin-top: 10px;
+        z-index: 15;
 
         .banner--desktop {
             width: 100%;
@@ -68,9 +69,11 @@
         flex-direction: row;
         justify-content: space-between;
         padding-top: 100px;
+        z-index: 10;
 
         .website__left {
             width: 30%;
+            z-index: 10;
 
             .element-website__left {
                 opacity: 1;
@@ -138,7 +141,8 @@
     .product-new {
         width: 100%;
         padding: 50px 0;
-        background-color: #f5eade;
+        background-color: #eeeeee;
+        z-index: 1;
 
         .container {
             max-width: 1250px;

@@ -11,10 +11,11 @@ const ShowBrand = () => {
     const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [usersPerPage, setPerPage] = useState(2);
+    const [usersPerPage, setPerPage] = useState(5);
 
     const [idCategory, setIdCategory] = useState(null);
-    const [newCategoryName, setNewCategoryName] = useState({ name: "", address: "" });
+    const [newCategoryName, setNewCategoryName] = useState({ name: "" });
+    const [newCategoryAddress, setNewCategoryAddress] = useState({ address: "" });
 
     const [inpUpdate, setinpUpdate] = useState(true);
     const [formAdd, setFormAdd] = useState(false);
@@ -83,7 +84,9 @@ const ShowBrand = () => {
     const startEditing = (category) => {
         setIdCategory(category.brands_id);
         setNewCategoryName({
-            name: category.name,
+            name: category.name
+        });
+        setNewCategoryAddress({
             address: category.address
         });
         setError('');
@@ -93,21 +96,26 @@ const ShowBrand = () => {
     const cancelEditing = () => {
         setIdCategory(null);
         setNewCategoryName('');
+        setNewCategoryAddress('');
         setinpUpdate(true)
     };
 
-    const saveCategory = () => {
-        api.put(`/brand/${idCategory}`, { newCategoryName })
-            .then(() => {
-                fetchCategories();
-                cancelEditing();
-                toast.success('Cập nhật thương hiệu thành công');
-            })
-            .catch(error => {
-                console.error('Error updating category:', error);
-                toast.error('Tên thương hiệu đã tồn tại');
-            });
-    };
+    // const saveCategory = () => {
+    //     console.log("name>>>" + newCategoryName);
+    //     console.log("address>>>" + newCategoryAddress.address);
+    //     api.put(`/brand/${idCategory}`, {
+
+    //     })
+    //         .then(() => {
+    //             fetchCategories();
+    //             cancelEditing();
+    //             toast.success('Cập nhật thương hiệu thành công');
+    //         })
+    //         .catch(error => {
+    //             console.error('Error updating category:', error);
+    //             toast.error('Tên thương hiệu đã tồn tại');
+    //         });
+    // };
     const toggleFormAdd = () => {
         setFormAdd(prevFormAdd => !prevFormAdd);
         setaddCategories('');
@@ -119,6 +127,10 @@ const ShowBrand = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         setStt((pageNumber - 1) * usersPerPage);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
 
 
@@ -127,7 +139,7 @@ const ShowBrand = () => {
             {formAdd &&
                 <div className="form-addcate" >
                     <form className="form" onSubmit={handleSubmit}>
-                        <h3>Thêm thương hiệu</h3>
+                        <h3>Thêm xuất xứ</h3>
                         <div className="row-form">
                             <label>
                                 <input
@@ -138,7 +150,7 @@ const ShowBrand = () => {
                                     onChange={handleChange}
                                     required maxLength={100}
                                 />
-                                <span>Tên thương hiệu</span>
+                                <span>Loại</span>
                             </label>
                         </div>
                         <div className="row-form">
@@ -155,21 +167,21 @@ const ShowBrand = () => {
                             </label>
                         </div>
                         <div className="row-formbtn">
-                            <button className="submit" type="submit">Thêm thương hiệu</button>
+                            <button className="submit" type="submit">Thêm xuất xứ</button>
                             <button className="submit" onClick={toggleFormAdd} style={{ backgroundColor: "#fb838a" }}>Huỷ</button>
                         </div>
                     </form>
                 </div>
             }
             <div className="title">
-                <span>Thương hiệu</span>
+                <span>xuất xứ</span>
 
                 <button onClick={toggleFormAdd} className="link-add">
                     <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
                         className="component-iconify MuiBox-root css-1t9pz9x iconify iconify--eva" width="1em" height="1em" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19 11h-6V5a1 1 0 0 0-2 0v6H5a1 1 0 0 0 0 2h6v6a1 1 0 0 0 2 0v-6h6a1 1 0 0 0 0-2"></path>
                     </svg>
-                    Thêm thương hiệu</button>
+                    Thêm xuất xứ</button>
             </div>
             <div className="content">
                 <div className="content-top">
@@ -196,10 +208,10 @@ const ShowBrand = () => {
                     <thead>
                         <tr>
                             <th className="col-1">STT</th>
-                            <th> Tên thương hiệu</th>
+                            <th> Loại</th>
                             <th> Địa chỉ</th>
                             <th style={{ textAlign: 'center' }}>Tổng số sản phẩm</th>
-                            <th>Chức năng</th>
+                            <th><img src={ic_delete} alt="" /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -216,7 +228,7 @@ const ShowBrand = () => {
                                             {inpUpdate === category.name ?
                                                 <>
                                                     <td style={{ width: '280px' }}> < input className="inp-update" name="name" type="text" value={newCategoryName.name} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
-                                                    <td style={{ width: '310px' }}> < input style={{ width: "300px" }} className="inp-update" name="address" type="text" value={newCategoryName.address} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
+                                                    <td style={{ width: '310px' }}> < input style={{ width: "300px" }} className="inp-update" name="address" type="text" value={newCategoryAddress.address} onChange={(e) => setNewCategoryAddress(e.target.value)} /></td>
                                                 </>
 
                                                 : <>
@@ -228,7 +240,7 @@ const ShowBrand = () => {
                                     }
                                     <td style={{ width: '250px', textAlign: 'center' }}>{category.products_count}</td>
                                     <th className="act-form">
-                                        <div className="btn-update">
+                                        {/* <div className="btn-update">
                                             {inpUpdate === true ?
                                                 <>
                                                     <button onClick={() => startEditing(category)}><img src={ic_edit} alt="" /></button>
@@ -246,7 +258,7 @@ const ShowBrand = () => {
                                                     </>
                                                 }</>
                                             }
-                                        </div>
+                                        </div> */}
 
                                         <button onClick={() => deleteUser(category.brands_id, category.name)}><img src={ic_delete} alt="" /></button>
                                     </th>

@@ -156,6 +156,36 @@ class UserController extends Controller
         
        
     }
+    public function updateinfo(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'name' => $request->name,
+            'birthday' => $request->birthday,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'username' => $request->username,
+        ]);
+
+        return response()->json($user);      
+    }
+    public function updatepass(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $repass = $request->input('repassword');
+        $userpass = $user->password;
+        
+        if (Hash::check($repass, $userpass)) {
+            $user->update([
+                'password' => Hash::make($request->input('password')),
+            ]);
+            return response()->json($user);  
+        } else {
+            return response()->json(['message' => 'Lỗi'], 400);  
+        }
+          
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -164,16 +194,5 @@ class UserController extends Controller
     {
         $delete = User::destroy($id);
         return response()->json($delete);
-        // if (!$user) {
-        //     return response()->json(['error' => 'User not found'], 404);
-        // }
-    
-        // try {
-        //     $user->delete();
-        //     return response()->json(null, 204);
-        // } catch (\Exception $e) {
-        //     return response()->json(['error' => 'Failed to delete user'], 500);
-        // }
-    
     }
 }

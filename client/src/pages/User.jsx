@@ -4,9 +4,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../api';
 import UserContext from "../UserContext"
+
 const User = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
     const { id } = useParams();
+    const [formAdd, setFormAdd] = useState(false);
+    const [pass, setPass] = useState({
+        password: '',
+        repassword: ''
+    });
     const [form, setForm] = useState({
         name: '',
         birthday: '',
@@ -16,40 +22,96 @@ const User = () => {
         password: '',
     });
     const navigate = useNavigate();
-    const [error, setError] = useState('');
     useEffect(() => {
         api.get(`/users/${id}`)
             .then(response => {
                 setForm(response.data);
-                setError('');
+
             })
             .catch(error => {
                 console.error(error);
-                setError('Error fetching user data. Please try again.');
+
             });
     }, [id]);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
+    const handleChangePass = (e) => {
+        setPass({
+            ...pass,
+            [e.target.name]: e.target.value
+        });
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        api.put(`/users/${id}`, form)
+        api.put(`/updateinfo/${id}`, form)
             .then(() => {
-                setError('');
                 toast.success("Cập nhật thông tin thành công")
                 setUser(form);
-
             })
             .catch(error => {
                 console.error(error);
-                setError('Cập nhật thông tin thất bại');
+                toast.error('Cập nhật thông tin thất bại');
             });
+    };
+    const toggleFormAdd = () => {
+        setFormAdd(prevFormAdd => !prevFormAdd);
+    };
+
+    const rePass = async (e) => {
+        e.preventDefault();
+        try {
+            api.put(`/updatepass/${id}`, {
+                password: pass.repassword,
+                repassword: pass.password
+            });
+            setUser(null);
+            localStorage.removeItem('user');
+            navigate('/');
+        } catch {
+            toast.error("Mật khẩu không chính xác")
+        }
     };
     return (
         <>
             <div className='info-user'>
+                {formAdd &&
+                    <div className="form-addcate">
+                        <form className="form" onSubmit={rePass}>
+                            <h3>Đổi mật khẩu</h3>
+                            <div className="row-form">
+                                <label>
+                                    <input
+                                        className="input"
+                                        type="password"
+                                        name='password'
+                                        onChange={handleChangePass}
+                                        required minLength={6}
+                                    />
+                                    <span>Mật khẩu cũ</span>
+                                </label>
+                            </div>
+                            <div className="row-form">
+                                <label>
+                                    <input
+                                        className="input"
+                                        type="password"
+                                        name='repassword'
+                                        onChange={handleChangePass}
+                                        required minLength={6}
+                                    />
+                                    <span>Mật khẩu mới</span>
+                                </label>
+                            </div>
+                            <div className="row-formbtn">
+                                <button className="submit" type="submit">Đổi mật khẩu</button>
+                                <button className="submit" onClick={toggleFormAdd}>Huỷ</button>
+                            </div>
+                        </form>
+                    </div>
+                }
                 <div className="title" >
                     <span>Thông tin tài khoản: {form.username}</span>
                 </div>
@@ -86,13 +148,14 @@ const User = () => {
                                 <span className="inp-adm">Tài khoản</span>
                             </label>
                             <label>
-                                <input className="input" type="password" name="password" onChange={handleChange}
+                                <input className="input" type="password" name="password" readOnly value={form.password} onChange={handleChange}
                                     placeholder="" required pattern=".{6,150}" title="Mật khẩu 6->50 ký tự" />
                                 <span>Mật khẩu</span>
                             </label>
                         </div>
                         <div className="row-formbtn">
                             <button className="submit" type="submit">Cập nhật</button>
+                            <div className="submit" onClick={toggleFormAdd}>Đổi mật khẩu</div>
                         </div>
                     </form>
                 </div>

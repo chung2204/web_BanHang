@@ -49,6 +49,10 @@ const ShowFeedBack = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
         setStt((pageNumber - 1) * usersPerPage);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     };
     const handleSelectChange = (event) => {
         setPerPage(event.target.value);

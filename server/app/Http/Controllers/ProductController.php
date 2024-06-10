@@ -19,8 +19,8 @@ class ProductController extends Controller
         if ($request->has('search')) {
             $search = $request->input('search');
             $products->where(function ($q) use ($search) {
-                $q->where('name', 'LIKE', "%{$search}%")
-                    ->orWhereHas('brand', function ($query) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%")->orWhere('quantity', '=', $search)
+                ->orWhere('prices', 'LIKE', "%{$search}%")->orWhereHas('brand', function ($query) use ($search) {
                         $query->where('name', 'LIKE', "%{$search}%");
                     })
                     ->orWhereHas('category', function ($query) use ($search) {
@@ -29,7 +29,7 @@ class ProductController extends Controller
             });
         }
 
-        $products = $products->get();
+        $products = $products->orderBy('created_at', 'desc')->get();
 
         return response()->json($products);
     }
@@ -61,9 +61,9 @@ class ProductController extends Controller
     public function getProductsByCategory($categoryId = null)
     {
         if ($categoryId) {
-            $products = Product::where('product_categories_id', $categoryId)->get();
+            $products = Product::where('product_categories_id', $categoryId)->orderBy('created_at', 'desc')->get();
         } else {
-            $products = Product::all();
+            $products = Product::orderBy('created_at', 'desc')->get();
         }
         
         return response()->json($products);

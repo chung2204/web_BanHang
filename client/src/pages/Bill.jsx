@@ -10,6 +10,7 @@ const Bill = () => {
     const [bill, setBill] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage, setPerPage] = useState(5);
+    const [showdetail, setShowdetail] = useState(false);
     const fetchBill = async () => {
         try {
             const response = await api.get(`/shoporder/${id}`);
@@ -58,38 +59,61 @@ const Bill = () => {
     const convertedDate = (date) => {
         return format(new Date(date), 'dd-MM-yyyy');
     }
+    const toggleDetail = (id) => {
+        setShowdetail(id);
+    };
+    const hideDetail = () => {
+        setShowdetail(false);
+    };
     return (
         <>
             <div className='bill-page'>
                 <div className='container'>
                     {currentUsers.map(bill => (
                         <>
-                            <table cellSpacing="1" cellPadding="0" className='item-bill' key={bill.shop_orders_id}>
-                                <caption>Họ tên :{bill.full_name}  -- Ngày mua:{convertedDate(bill.date_order)}</caption>
-                                <caption>Email :{bill.email}  -- Số điện thoại:{bill.phone}</caption>
-                                <caption>Địa chỉ :{bill.address}</caption>
-                                <caption>Tổng tiền:{formatCurrency(bill.total_prices)} -- Trạng thái:{bill.status_order}
-                                    {bill.status_order === "Chờ duyệt" ? <> -- <span onClick={() => handleOnclick(bill.shop_orders_id)}>huỷ hoá đơn</span></> : ""}
-                                </caption>
-                                <tr>
-                                    <th className='item'>Tên sản phẩm</th>
-                                    <th className='item'>Ảnh</th>
-                                    <th className='item'>Số lượng</th>
-                                    <th className='item'>Đơn giá</th>
-                                </tr>
+                            <div key={bill.shop_orders_id} className='item-bill'>
+                                <div className='title-bill'>
+                                    <b>MiniStore</b>
+                                    <span className='status-bill'> Trạng thái: {bill.status_order}</span>
+                                </div>
                                 {bill.orderdetails.map(billdetails => (
                                     <>
-                                        <tr key={billdetails.shop_order_details_id}>
-                                            <td className='item'>{billdetails.name_product}</td>
-                                            <td className='item'><img width='100px' src={urlImage + billdetails.image} alt="" /></td>
-                                            <td className='item'>{billdetails.total_product}</td>
-                                            <td className='item'>{formatCurrency(billdetails.prices)}</td>
-                                        </tr>
+                                        <div key={billdetails.shop_order_details_id} className='item-billdetail'>
+
+                                            <div className='img-product'>
+                                                <img src={urlImage + billdetails.image} alt="" />
+                                            </div>
+                                            <div className='info-product'>
+                                                <div className='name-product'>{billdetails.name_product}</div>
+                                                <div className='total-product'> Số lượng: {billdetails.total_product}</div>
+                                                <div className='price-product'>Giá: <span style={{ color: "red" }}>{formatCurrency(billdetails.prices)}</span></div>
+                                            </div>
+                                        </div>
 
                                     </>
                                 ))}
-
-                            </table>
+                                <div className='total-price'>Tổng tiền: <span style={{ color: "red" }}>{formatCurrency(bill.total_prices)}</span> </div>
+                                {showdetail === false ? <>
+                                    <span className='status-bill' onClick={() => toggleDetail(bill.shop_orders_id)}>Xem chi tiết</span>
+                                </> : <>
+                                    {
+                                        showdetail === bill.shop_orders_id ? <>
+                                            <div className='info-ship'>
+                                                <p>Thông tin giao hàng:</p>
+                                                <div>Người nhận: {bill.full_name}  -- Số điện thoại: {bill.phone}</div>
+                                                <div>Email: {bill.email}  -- Ngày mua: {convertedDate(bill.date_order)}</div>
+                                                <div>Địa chỉ: {bill.address}</div>
+                                                {bill.status_order === "Chờ duyệt" ? <><div className='btn-unbill' onClick={() => handleOnclick(bill.shop_orders_id)}>Huỷ đơn hàng</div></> : ""}
+                                                <div className='status-bill' onClick={() => hideDetail()}>Ẩn bớt</div>
+                                            </div>
+                                        </> : <>
+                                            <span className='status-bill' onClick={() => toggleDetail(bill.shop_orders_id)}>Xem chi tiết</span>
+                                        </>
+                                    }
+                                </>
+                                }
+                            </div>
+                            <hr />
                         </>
                     ))}
                     <Pagination

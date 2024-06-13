@@ -78,7 +78,7 @@ class BrandController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'category_name' => 'required|string|max:100|unique:brands,name,' . $id . ',brands_id',
+            'name' => 'required|string|max:100|unique:brands,name,' . $id . ',brands_id',
             'address' => 'required|string|max:100',
         ]);
 

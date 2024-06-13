@@ -923,51 +923,91 @@ body {
     .container {
         width: 100%;
         margin: 0 auto;
-        max-width: 1050px;
+        max-width: 750px;
+
+        hr {
+            margin: 50px 0;
+        }
 
         .item-bill {
             width: 100%;
-            margin-bottom: 100px;
 
-            .item {
-                text-align: center;
-                border: 1px solid black;
+            .status-bill {
+                color: #ff6800;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
             }
 
-            caption {
-                margin-bottom: 20px;
-                line-height: 0.8;
-                font-size: 18px;
+            .title-bill {
+                display: flex;
+                justify-content: space-between;
 
-                span {
-                    padding: 2px 6px;
-                    background-color: #ff9292;
-                    border-radius: 10px;
+                b {
+                    font-size: 18px;
+                }
+            }
+
+            .item-billdetail {
+                display: flex;
+                justify-content: flex-start;
+                padding: 10px 50px;
+
+                .info-product {
+                    display: flex;
+                    flex-direction: column;
+                    line-height: 1.5;
+                    margin-left: 20px;
+
+                    .name-product {
+                        margin: 0;
+                        font-size: 17px;
+                        font-weight: 600;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                .img-product {
+                    height: 90px;
+                    width: 140px;
+
+                    img {
+                        height: 90px;
+                        width: 140px;
+                    }
+
+                }
+            }
+
+            .total-price {
+                font-size: 18px;
+                font-weight: 600;
+                padding: 10px 0;
+            }
+
+            .info-ship {
+                line-height: 1.5;
+
+                p {
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+                .btn-unbill {
+                    padding: 3px 5px;
+                    width: 120px;
+                    text-align: center;
+                    margin: 10px 0;
+                    background-color: #ff0000cf;
+                    color: white;
+                    font-size: 15px;
+                    font-weight: 550;
+                    border-radius: 8px;
                     cursor: pointer;
                 }
-            }
-        }
-
-        .pagination {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-
-            button {
-                margin: 0 5px;
-                background-color: transparent;
-                border-radius: 8px;
-                text-align: center;
-                width: 35px;
-                height: 30px;
-            }
-
-            .active {
-                button {
-                    background-color: rgb(128 251 255) !important;
-                }
-
             }
         }
     }

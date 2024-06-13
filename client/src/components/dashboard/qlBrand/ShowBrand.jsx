@@ -13,10 +13,7 @@ const ShowBrand = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage, setPerPage] = useState(5);
 
-    const [idCategory, setIdCategory] = useState(null);
-    const [newCategoryName, setNewCategoryName] = useState({ name: "" });
-    const [newCategoryAddress, setNewCategoryAddress] = useState({ address: "" });
-
+    const [newCategoryName, setNewCategoryName] = useState({ brands_id: "", name: "", address: "" });
     const [inpUpdate, setinpUpdate] = useState(true);
     const [formAdd, setFormAdd] = useState(false);
 
@@ -81,41 +78,39 @@ const ShowBrand = () => {
     const handleSelectChange = (event) => {
         setPerPage(event.target.value);
     };
+
     const startEditing = (category) => {
-        setIdCategory(category.brands_id);
         setNewCategoryName({
-            name: category.name
-        });
-        setNewCategoryAddress({
+            brands_id: category.brands_id,
+            name: category.name,
             address: category.address
         });
         setError('');
         setinpUpdate(category.name);
     };
-
+    const handleChange2 = (e) => {
+        setNewCategoryName({ ...newCategoryName, [e.target.name]: e.target.value });
+    };
     const cancelEditing = () => {
-        setIdCategory(null);
         setNewCategoryName('');
-        setNewCategoryAddress('');
         setinpUpdate(true)
     };
 
-    // const saveCategory = () => {
-    //     console.log("name>>>" + newCategoryName);
-    //     console.log("address>>>" + newCategoryAddress.address);
-    //     api.put(`/brand/${idCategory}`, {
-
-    //     })
-    //         .then(() => {
-    //             fetchCategories();
-    //             cancelEditing();
-    //             toast.success('Cập nhật thương hiệu thành công');
-    //         })
-    //         .catch(error => {
-    //             console.error('Error updating category:', error);
-    //             toast.error('Tên thương hiệu đã tồn tại');
-    //         });
-    // };
+    const saveCategory = () => {
+        api.put(`/brand/${newCategoryName.brands_id}`, {
+            name: newCategoryName.name,
+            address: newCategoryName.address
+        })
+            .then(() => {
+                fetchCategories();
+                cancelEditing();
+                toast.success('Cập nhật thành công');
+            })
+            .catch(error => {
+                console.error('Error updating category:', error);
+                toast.error('Cập nhật thất bại');
+            });
+    };
     const toggleFormAdd = () => {
         setFormAdd(prevFormAdd => !prevFormAdd);
         setaddCategories('');
@@ -211,7 +206,7 @@ const ShowBrand = () => {
                             <th> Loại</th>
                             <th> Địa chỉ</th>
                             <th style={{ textAlign: 'center' }}>Tổng số sản phẩm</th>
-                            <th><img src={ic_delete} alt="" /></th>
+                            <th style={{ textAlign: 'center' }}><img src={ic_delete} alt="" /></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -222,13 +217,13 @@ const ShowBrand = () => {
                                     {inpUpdate === true ?
                                         <>
                                             <td style={{ width: '280px' }}>{category.name}</td>
-                                            <td style={{ width: '310px' }}>{category.address}</td>
+                                            <td style={{ maxWidth: '430px' }}>{category.address}</td>
                                         </> :
                                         <>
                                             {inpUpdate === category.name ?
                                                 <>
-                                                    <td style={{ width: '280px' }}> < input className="inp-update" name="name" type="text" value={newCategoryName.name} onChange={(e) => setNewCategoryName(e.target.value)} /></td>
-                                                    <td style={{ width: '310px' }}> < input style={{ width: "300px" }} className="inp-update" name="address" type="text" value={newCategoryAddress.address} onChange={(e) => setNewCategoryAddress(e.target.value)} /></td>
+                                                    <td style={{ width: '280px' }}> < input className="inp-update" name="name" type="text" value={newCategoryName.name} onChange={handleChange2} /></td>
+                                                    <td> < input style={{ width: "370px" }} className="inp-update" name="address" type="text" value={newCategoryName.address} onChange={handleChange2} /></td>
                                                 </>
 
                                                 : <>
@@ -240,7 +235,7 @@ const ShowBrand = () => {
                                     }
                                     <td style={{ width: '250px', textAlign: 'center' }}>{category.products_count}</td>
                                     <th className="act-form">
-                                        {/* <div className="btn-update">
+                                        <div className="btn-update">
                                             {inpUpdate === true ?
                                                 <>
                                                     <button onClick={() => startEditing(category)}><img src={ic_edit} alt="" /></button>
@@ -258,7 +253,7 @@ const ShowBrand = () => {
                                                     </>
                                                 }</>
                                             }
-                                        </div> */}
+                                        </div>
 
                                         <button onClick={() => deleteUser(category.brands_id, category.name)}><img src={ic_delete} alt="" /></button>
                                     </th>

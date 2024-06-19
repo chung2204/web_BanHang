@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from "../api";
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import ic_delete from '../assets/icon/ic_delete.svg'
+import ic_delete from '../assets/icon/ic_delete.svg';
+import UserContext from '../UserContext';
 const ShoppingCard = () => {
     const urlImage = process.env.REACT_APP_API_IMAGE_URL;
     const { id } = useParams();
@@ -10,6 +11,7 @@ const ShoppingCard = () => {
     const [shopCard, setShopCard] = useState();
     const [userData, setUserData] = useState([]);
     const [address, setAddress] = useState('');
+    const { fetchShoppingCard } = useContext(UserContext);
     useEffect(() => {
         api.get(`/users/${id}`)
             .then(response => {
@@ -49,14 +51,19 @@ const ShoppingCard = () => {
         fetchCard();
     }, [id]);
     const handleUpdateItem = async (id_card, total, total_pr) => {
-        const newValue = total;
-        if (/^\d+$/.test(newValue) && parseInt(newValue) >= 0 && parseInt(newValue) < total_pr) {
+        let newValue = 0;
+        if (total === null || total === '') {
+            newValue = 0;
+        } else {
+            newValue = total
+        }
+        if (/^\d+$/.test(newValue) && parseInt(newValue) >= 0 && parseInt(newValue) <= total_pr) {
             api.post(`/updatecarditem/${id_card}`, {
                 users_id: id,
                 total: newValue,
             }).then(() => {
+                fetchShoppingCard();
                 fetchCard();
-                toast.success("Cập nhật giỏ hàng thành công")
             })
                 .catch(error => {
                     console.error(error);
@@ -77,6 +84,8 @@ const ShoppingCard = () => {
                 users_id: id
             }).then(() => {
                 fetchCard();
+                fetchShoppingCard();
+                toast.success("đã bỏ sản phẩm khỏi giỏ hàng")
             })
                 .catch(error => {
                     console.error(error);

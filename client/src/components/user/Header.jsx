@@ -5,7 +5,7 @@ import main_logo from "../../assets/image/main_logo.png";
 import { toast } from 'react-toastify';
 
 const Header = () => {
-    const { user, handleLogout } = useContext(UserContext);
+    const { user, handleLogout, shopCard } = useContext(UserContext);
     const handleOnclick = () => {
         toast.error("Phải đăng nhập để sử dụng giỏ hàng")
     }
@@ -41,7 +41,7 @@ const Header = () => {
                                 </ul>
                             </div>
                             <div className="menu-item"> <NavLink to={`shoppingcard/${user.users_id}`} className={({ isActive }) => "nav-menu-item" + (isActive ? ' act-nav' : '')}>Giỏ hàng
-
+                                {shopCard ? <>({shopCard.total_product ? shopCard.total_product : 0})</> : ("")}
                             </NavLink></div>
                         </>
                     ) : (

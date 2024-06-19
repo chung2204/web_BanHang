@@ -15,6 +15,7 @@ const Bill = () => {
         try {
             const response = await api.get(`/shoporder/${id}`);
             setBill(response.data);
+
         } catch (error) {
             console.error("There was an error fetching!", error);
         }
@@ -23,7 +24,6 @@ const Bill = () => {
     useEffect(() => {
         fetchBill();
     }, [id]);
-
     const indexOfLastUser = currentPage * usersPerPage;
     const indexOfFirstUser = indexOfLastUser - usersPerPage;
     const currentUsers = bill.slice(indexOfFirstUser, indexOfLastUser);
@@ -36,13 +36,32 @@ const Bill = () => {
     };
 
     const handleOnclick = (shop_orders_id) => {
+        const formData = new FormData();
+        bill.forEach((bill, billIndex) => {
+            if (bill.orderdetails && bill.shop_orders_id === shop_orders_id) {
+                bill.orderdetails.forEach((detail, detailIndex) => {
+                    formData.append(`details[${billIndex}][${detailIndex}][name]`, detail.name_product);
+                    formData.append(`details[${billIndex}][${detailIndex}][total]`, detail.total_product);
+                });
+            }
+        });
+
         if (window.confirm(`Bạn có chắc muốn huỷ đơn hàng`)) {
             api.put(`shoporder/${shop_orders_id}`, {
                 status_order: 'Huỷ'
             })
                 .then(() => {
                     fetchBill();
-                    toast.success('Huỷ hoá đơn thành công')
+                    toast.success('Huỷ hoá đơn thành công');
+                    api.post(`/updatetotal2`, formData)
+                        .then(() => {
+
+                        })
+                        .catch(error => {
+                            console.error(error);
+
+                        });
+
                 })
                 .catch(error => {
                     console.error(error);

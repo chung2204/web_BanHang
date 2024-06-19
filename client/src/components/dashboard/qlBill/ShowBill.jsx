@@ -26,18 +26,53 @@ const ShowBill = () => {
         fetchBill();
     }, [searchTerm]);
     const handleChange = (shop_orders_id) => (e) => {
+        const formData = new FormData();
         const { value } = e.target;
-        api.put(`shoporder/${shop_orders_id}`, {
-            status_order: value
-        })
-            .then(() => {
-                fetchBill();
-                toast.success('cập nhật trạng thái đơn hàng thành công');
-            })
-            .catch(error => {
-                console.error(error);
-                toast.error('lỗi cập nhật trạng thái đơn hàng');
+        if (value === "Từ chối") {
+            bills.forEach((bill, billIndex) => {
+                if (bill.orderdetails && bill.shop_orders_id === shop_orders_id) {
+                    bill.orderdetails.forEach((detail, detailIndex) => {
+                        formData.append(`details[${billIndex}][${detailIndex}][name]`, detail.name_product);
+                        formData.append(`details[${billIndex}][${detailIndex}][total]`, detail.total_product);
+                    });
+                }
             });
+            if (window.confirm(`Bạn có chắc muốn huỷ đơn hàng`)) {
+                api.put(`shoporder/${shop_orders_id}`, {
+                    status_order: value
+                })
+                    .then(() => {
+                        fetchBill();
+                        toast.success('cập nhật trạng thái đơn hàng thành công');
+                        api.post(`/updatetotal2`, formData)
+                            .then(() => {
+
+                            })
+                            .catch(error => {
+                                console.error(error);
+
+                            });
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        toast.error('lỗi cập nhật trạng thái đơn hàng');
+                    });
+            }
+        } else {
+            api.put(`shoporder/${shop_orders_id}`, {
+                status_order: value
+            })
+                .then(() => {
+                    fetchBill();
+                    toast.success('cập nhật trạng thái đơn hàng thành công');
+                })
+                .catch(error => {
+                    console.error(error);
+                    toast.error('lỗi cập nhật trạng thái đơn hàng');
+                });
+        }
+
 
     };
     const indexOfLastUser = currentPage * usersPerPage;

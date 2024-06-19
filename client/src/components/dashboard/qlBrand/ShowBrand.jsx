@@ -206,7 +206,7 @@ const ShowBrand = () => {
                             <th> Loại</th>
                             <th> Địa chỉ</th>
                             <th style={{ textAlign: 'center' }}>Tổng số sản phẩm</th>
-                            <th style={{ textAlign: 'center' }}><img src={ic_delete} alt="" /></th>
+                            <th style={{ textAlign: 'center' }}>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>

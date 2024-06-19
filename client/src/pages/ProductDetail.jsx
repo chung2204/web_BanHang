@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost/web_BanHang/server/public';
 const ProductDetail = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user, fetchShoppingCard } = useContext(UserContext);
     const urlImage = process.env.REACT_APP_API_IMAGE_URL;
     const { id } = useParams();
     const [brands, setBrands] = useState(null);
@@ -140,8 +140,13 @@ const ProductDetail = () => {
                     image: product.image,
                     total_product: product.quantity,
                     total: 1
-                });
-                toast.success("thêm sản phẩm vào giỏ hàng thành công");
+                }).then(() => {
+                    fetchShoppingCard();
+                    toast.success("thêm sản phẩm vào giỏ hàng thành công");
+                })
+                    .catch(error => {
+                        toast.success("Thêm sản phẩm vào giỏ hàng thất bại");
+                    });
             } else {
                 toast.error("Sản phẩm đã hết hàng");
             }

@@ -174,7 +174,7 @@ const ShowCategory = () => {
                             <th className="col-1">STT</th>
                             <th> Tên danh mục</th>
                             <th style={{ textAlign: 'center' }}>Tổng số sản phẩm</th>
-                            <th>Chức năng</th>
+                            <th style={{ width: "150px", textAlign: "center" }}>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -193,7 +193,7 @@ const ShowCategory = () => {
                                     }
                                 </td>
                                 <td style={{ width: '250px', textAlign: 'center' }}>{category.products_count}</td>
-                                <th className="act-form">
+                                <th className="act-form" style={{ width: "100%" }}>
                                     <div className="btn-update">
                                         {abc === 'true' ?
                                             <>

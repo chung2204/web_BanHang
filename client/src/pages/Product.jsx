@@ -10,6 +10,7 @@ const Product = () => {
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage, setPerPage] = useState(8);
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
         fetchCategories();
         const fetchProducts = async () => {
@@ -62,6 +63,7 @@ const Product = () => {
         api.get('/categories')
             .then(response => {
                 setCategories(response.data);
+                setLoading(false);
             })
             .catch(error => {
 
@@ -103,21 +105,25 @@ const Product = () => {
             behavior: 'smooth'
         });
     };
+    if (loading) {
+        return <div style={{ width: "100%", textAlign: "center" }}>Loading...</div>;
+    }
     return (
         <>
             <div className='product-page'>
                 <div className='container'>
-                    <Slider {...slideProductPage} className='slide-category'>
-                        <div key={'all'}>
-                            <p style={selectCategory === "all" ? styleAcitive : stylereAcitive} className='item-category' onClick={() => handleOnclick('all')}>Tất cả</p>
-                        </div>
-
-                        {categories.map(category => (
-                            <div key={category.product_categories_id}>
-                                <p style={selectCategory === category.product_categories_id ? styleAcitive : stylereAcitive} className='item-category' onClick={() => handleOnclick(category.product_categories_id)}>{category.category_name}</p>
+                    {categories ?
+                        <Slider {...slideProductPage} className='slide-category'>
+                            <div key={'all'}>
+                                <p style={selectCategory === "all" ? styleAcitive : stylereAcitive} className='item-category' onClick={() => handleOnclick('all')}>Tất cả</p>
                             </div>
-                        ))}
-                    </Slider>
+                            {categories.map(category => (
+                                <div key={category.product_categories_id}>
+                                    <p style={selectCategory === category.product_categories_id ? styleAcitive : stylereAcitive} className='item-category' onClick={() => handleOnclick(category.product_categories_id)}>{category.category_name}</p>
+                                </div>
+                            ))}
+                        </Slider>
+                        : ""}
                     <div className='product-items'>
                         {currentUsers.map(product => (
                             <>

@@ -51,6 +51,25 @@ class ProductController extends Controller
         return response()->json($details);
     }
     
+    public function updateTotal2(Request $request)
+    {
+        $details = $request->input('details');
+        if (isset($details)) {
+            foreach ($details as $billDetails) {
+                foreach ($billDetails as $detail) {
+                   
+                    $product = Product::where('name', $detail['name'])->first();
+                    if ($product) {
+                        $product->update([
+                            'quantity' => $product->quantity + $detail['total']
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return response()->json($details);
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -161,7 +180,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function updateproduct(Request $request, $id)
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:products,name,' . $id . ',products_id',
@@ -171,7 +190,6 @@ class ProductController extends Controller
             'quantity' => 'required|integer',
             'brands_id' => 'required|exists:brands,brands_id',
             'product_categories_id' => 'required|exists:product_categories,product_categories_id',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'details.*.name' => 'string',
             'details.*.description' => 'string',
         ]);
@@ -186,15 +204,13 @@ class ProductController extends Controller
         $product->brands_id = $request->input('brands_id');
         $product->product_categories_id = $request->input('product_categories_id');
     
-        if ($request->hasFile('image')) {
-            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
-            $request->file('image')->move(public_path('images'), $imageName);
-            $product->image = 'images/' . $imageName;
-        }
+        // if ($request->hasFile('image')) {
+        //     $imageName = time() . '_' . $request->image->extension();
+        //     $request->file('image')->move(public_path('images'), $imageName);
+        //     $product->image = 'images/' . $imageName;
+        // }
     
         $product->save();
-    
-        // Cập nhật chi tiết sản phẩm
         $details = $request->input('details', []);
         if(isset($details)){
             ProductDetails::where('products_id', $id)->delete();
@@ -206,23 +222,6 @@ class ProductController extends Controller
                 $productDetail->save();
             }
         }
-       
-    
-        // Cập nhật gallery
-        // $galeries = $request->input('galeries', []);
-   
-        // foreach ($galeries as $index => $galery) {
-        //     $newGalery = new Galery();
-        //     if ($request->hasFile("galeries.$index.thumbnail")) {
-        //         $thumbnailName = time() . '_' . $request->file("galeries.$index.thumbnail")->getClientOriginalName();
-        //         $request->file("galeries.$index.thumbnail")->move(public_path('images'), $thumbnailName);
-        //         $newGalery->thumbnail = 'images/' . $thumbnailName;
-        //     }
-        //     $newGalery->description = $galery['description'] ?? '';
-        //     $newGalery->products_id = $id;
-        //     $newGalery->save();
-        // }
-    
         return response()->json($product);
     }
     /**

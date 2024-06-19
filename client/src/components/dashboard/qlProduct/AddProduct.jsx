@@ -237,7 +237,6 @@ const AddProduct = () => {
                     <div>
                         <label>Ảnh sản phẩm</label> <br />
                         <input type="file" name="image" onChange={handleImageChange} required />
-
                     </div>
                     <div className='title'>
                         <h3>Chi tiết sản phẩm</h3>
@@ -278,7 +277,6 @@ const AddProduct = () => {
                             <input type="file" name="thumbnail" onChange={(e) => handleGaleryChange(index, e)} required />
                             <div className='details-product'>
                                 <textarea name="description" required style={{ width: '80%' }} placeholder="Alt " value={galery.description} onChange={(e) => handleGaleryChange(index, e)} />
-
                                 <button type="button" className='btn-delete' onClick={() => removeGalery(index)}>Xoá</button>
                             </div>
                         </div>

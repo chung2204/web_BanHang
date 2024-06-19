@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from './components/user/Header';
 import Footer from './components/user/Footer';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -14,7 +14,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import api from './api';
 const App = () => {
   const [user, setUser] = useState(null);
-
+  const [shopCard, setShopCard] = useState();
   useEffect(() => {
     AOS.init();
     const loggedInUser = localStorage.getItem('user');
@@ -28,9 +28,23 @@ const App = () => {
     localStorage.removeItem('user');
     navigate('/');
   };
+  const fetchShoppingCard = useCallback(async () => {
+    if (user !== null && user.users_id !== '') {
+      try {
+        const response = await api.get(`/shopcard/${user.users_id}`);
+        setShopCard(response.data);
+      } catch (error) {
+        console.error("There was an error fetching!", error);
+      }
+    }
+  }, [user]);
+
+  useEffect(() => {
+    fetchShoppingCard();
+  }, [fetchShoppingCard]);
   return (
     <>
-      <UserContext.Provider value={{ user, setUser, handleLogout }}>
+      <UserContext.Provider value={{ user, setUser, handleLogout, shopCard, fetchShoppingCard }}>
         <div className='header'>
           <Header />
         </div>

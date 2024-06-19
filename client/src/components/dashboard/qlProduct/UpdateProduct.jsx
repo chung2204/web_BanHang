@@ -125,30 +125,58 @@ const UpdateProduct = () => {
             galeries: newGaleries,
         }));
     };
+    const [img, setImage] = useState(null);
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+        const { name, value, files } = e.target;
+        if (name === 'image' && files[0]) {
+            const file = files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setPreviewImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (img) {
+            const requestData = {
+                name: product.name,
+                description: product.description,
+                prices: product.prices,
+                quantity: product.quantity,
+                brands_id: product.brands_id,
+                product_categories_id: product.product_categories_id,
+                details: product.details,
+                galeries: product.galeries,
+                image: img
+            };
+            api.post(`/updateproduct/${id}`, requestData)
+                .then((response) => {
+                    navigate('/admin/showProduct');
+                }).catch((error) => {
+                    toast.error('Lỗi cập nhật sản phẩm');
+                });
+        } else {
+            const requestData = {
+                name: product.name,
+                description: product.description,
+                prices: product.prices,
+                quantity: product.quantity,
+                brands_id: product.brands_id,
+                product_categories_id: product.product_categories_id,
+                details: product.details,
+                galeries: product.galeries
+            };
+            api.post(`/updateproduct/${id}`, requestData)
+                .then((response) => {
+                    navigate('/admin/showProduct');
+                }).catch((error) => {
+                    toast.error('Lỗi cập nhật sản phẩm');
+                });
+        }
 
-        const requestData = {
-            name: product.name,
-            description: product.description,
-            prices: product.prices,
-            quantity: product.quantity,
-            brands_id: product.brands_id,
-            product_categories_id: product.product_categories_id,
-            details: product.details,
-            galeries: product.galeries
-        };
-        const formData = new FormData();
-        product.galeries.forEach((galery, index) => {
-            formData.append(`galeries[${index}][thumbnail]`, galery.thumbnail);
-            formData.append(`galeries[${index}][description]`, galery.description);
-        });
-        api.put(`/product/${id}`, requestData)
-            .then((response) => {
-                navigate('/admin/showProduct');
-            }).catch((error) => {
-                toast.error('Lỗi cập nhật sản phẩm');
-            });
     };
     const handleSubmit2 = (e) => {
         e.preventDefault();
@@ -219,14 +247,16 @@ const UpdateProduct = () => {
                         <div>
                             <label>Danh mục</label>&nbsp;
                             <select name="product_categories_id" required value={product.product_categories_id} onChange={handleChange}>
-
                                 {categories.map(brand => (
                                     <option key={brand.product_categories_id} value={brand.product_categories_id}>{brand.category_name}</option>
                                 ))}
                             </select>
                         </div>
                     </div>
-
+                    {/* <div>
+                        <label>Ảnh sản phẩm</label> <br />
+                        <input type="file" name="image" onChange={handleImageChange} />
+                    </div> */}
                     <div>
                         <div className='title'>
                             <h3>Chi tiết sản phẩm</h3>
@@ -252,7 +282,6 @@ const UpdateProduct = () => {
                         )}
                         <div className='list-img'>
                             {product.galeries.map((src, index) => (
-
                                 previewImages[index] && <img src={typeof previewImages[index] === 'string' ? previewImages[index] : URL.createObjectURL(previewImages[index])} alt={`Preview ${index}`} width="200" />
                             ))}
                         </div>
@@ -262,7 +291,6 @@ const UpdateProduct = () => {
                         <button type="button" onClick={addGalery}> <img src={ic_add} alt="" style={{ width: '18px' }} />Thêm ảnh</button>
                     </div>
                     {product.galeries.map((galery, index) => (
-
                         <div key={index} className='galery'>
                             <input type="file" name="thumbnail" required onChange={(e) => handleGaleryChange(index, e)} />
                             <div className='details-product'>

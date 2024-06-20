@@ -100,12 +100,7 @@ class ProductController extends Controller
             'prices' => 'required|numeric',
             'quantity' => 'required|integer',
             'brands_id' => 'required|exists:brands,brands_id',
-            'product_categories_id' => 'required|exists:product_categories,product_categories_id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'details.*.name' => 'string',
-            'details.*.description' => 'string',
-            'galeries.*.thumbnail' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'galeries.*.description' => 'string',
+            'product_categories_id' => 'required|exists:product_categories,product_categories_id'
         ]);
 
         $product = new Product();

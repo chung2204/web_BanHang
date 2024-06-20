@@ -158,7 +158,6 @@ const AddProduct = () => {
             },
         })
             .then((response) => {
-                console.log('Product created:', product);
                 setProduct({
                     name: '',
                     description: '',
@@ -176,9 +175,7 @@ const AddProduct = () => {
             .catch((error) => {
                 if (error.response && error.response.status === 422) {
                     setErrors(error.response.data.errors);
-                    toast.error(`Sản phẩm đã tồn tại`);
-                } else {
-                    toast.error(`Sản phẩm đã tồn tại`);
+                    toast.error(`Lỗi thêm sản phẩm`);
                 }
             });
     };

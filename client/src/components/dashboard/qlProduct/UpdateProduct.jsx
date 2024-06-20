@@ -152,7 +152,11 @@ const UpdateProduct = () => {
                 galeries: product.galeries,
                 image: img
             };
-            api.post(`/updateproduct/${id}`, requestData)
+            api.post(`/updateproduct/${id}`, requestData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
                 .then((response) => {
                     navigate('/admin/showProduct');
                 }).catch((error) => {
@@ -169,7 +173,11 @@ const UpdateProduct = () => {
                 details: product.details,
                 galeries: product.galeries
             };
-            api.post(`/updateproduct/${id}`, requestData)
+            api.post(`/updateproduct/${id}`, requestData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
                 .then((response) => {
                     navigate('/admin/showProduct');
                 }).catch((error) => {

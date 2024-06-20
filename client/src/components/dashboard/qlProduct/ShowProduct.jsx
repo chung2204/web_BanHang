@@ -52,7 +52,7 @@ const ShowProduct = () => {
     return (
         <>
             <div className="title">
-                <span>Sản phẩm</span>
+                <span>Sản phẩm({products.length})</span>
 
                 <Link className="link-add" to="/admin/showProduct/addProduct">
                     <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
@@ -88,7 +88,7 @@ const ShowProduct = () => {
                         <div key={product.products_id} className="product">
                             <img src={urlImage + product.image} alt={product.name} />
                             <h3>{product.name}</h3>
-                            <p>Giá: {formatCurrency(product.prices)}</p>
+                            <p style={{ color: 'red', fontSize: "18px", fontWeight: "700", margin: "0" }}> {formatCurrency(product.prices)}</p>
                             <p>Số lượng: {product.quantity}</p>
                             <div className="ctr">
                                 <div className="btn-update"> <Link to={`/admin/showProduct/updateProduct/${product.products_id}`}>chi tiết</Link></div>

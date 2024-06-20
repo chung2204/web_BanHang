@@ -181,13 +181,21 @@ const ProductDetail = () => {
 
                         <div className='details-product'>
                             <h3>Thông số kỹ thuật :</h3>
-                            {product.details.map((detail, index) => (
+                            <table style={{ width: "100%" }}>{product.details.map((detail, index) => (
                                 <>
-                                    <div key={index} className='item-detail'>
-                                        <span> {detail.name} :{detail.description}</span>
-                                    </div>
+                                    <tr key={index} className='item-detail'>
+                                        <td style={{ padding: "0px 10px" }}>
+                                            {detail.name}
+                                        </td>
+                                        <td>
+                                            {detail.description}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={2}><hr style={{ opacity: "0.6" }} /></td>
+                                    </tr>
                                 </>
-                            ))}
+                            ))} </table>
                         </div>
                     </div>
                     <div className='content-right'>

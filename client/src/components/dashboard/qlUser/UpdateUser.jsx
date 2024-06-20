@@ -34,7 +34,7 @@ function UpdateUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        api.put(`/users/${id}`, form)
+        api.put(`/updateinfo/${id}`, form)
             .then(() => {
                 navigate('/admin/showUser');
                 setError('');
@@ -82,12 +82,12 @@ function UpdateUser() {
                     <div className="row-form">
                         <label>
                             <input className="input" type="text" name="username" value={form.username} onChange={handleChange}
-                                readOnly placeholder="" required pattern=".{5,50}" title="Tài khoản dài 5->50 ký tự" />
+                                readOnly placeholder="" />
                             <span className="inp-adm">Tài khoản</span>
                         </label>
                         <label>
                             <input className="input" type="password" name="password" value={form.password} onChange={handleChange}
-                                placeholder="" required pattern=".{6,150}" title="Mật khẩu 6->50 ký tự" />
+                                placeholder="" readOnly />
                             <span>Mật khẩu</span>
                         </label>
                     </div>

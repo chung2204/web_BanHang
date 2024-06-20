@@ -387,8 +387,16 @@
                         flex-direction: column;
                         align-items: center;
 
-                        .img {
+                        img {
                             width: 100%;
+                        }
+
+                        h3 {
+                            overflow: hidden;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            text-overflow: ellipsis;
                         }
 
                         .ctr {

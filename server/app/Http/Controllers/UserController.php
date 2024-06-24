@@ -93,6 +93,7 @@ class UserController extends Controller
         return response()->json($show);
      
     }
+
     public function login(Request $request)
     {
         $credentials = $request->only('username', 'password');
@@ -104,7 +105,6 @@ class UserController extends Controller
                 'user' => $user
             ]);
         }
-
         return response()->json([
             'message' => 'Login failed'
         ], 401);

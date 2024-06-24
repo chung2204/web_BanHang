@@ -54,7 +54,6 @@ const Router = () => {
                     <Route path='showBill' element={<ShowBill />} />
                     <Route path='showFeedBack' element={<ShowFeedBack />} />
 
-
                     <Route path='showProduct' element={<ShowProduct />} />
                     <Route path='showProduct/addProduct' element={<AddProduct />} />
                     <Route path='showProduct/updateProduct/:id' element={<UpdateProduct />} />

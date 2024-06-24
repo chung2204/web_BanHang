@@ -72,6 +72,7 @@ const AddProduct = () => {
             ...prevProduct,
             details: newDetails,
         }));
+
     };
 
     const handleGaleryChange = (index, e) => {
@@ -115,6 +116,7 @@ const AddProduct = () => {
             ...prevProduct,
             galeries: newGaleries,
         }));
+        setPreviewListImages((prevPreviewListImages) => prevPreviewListImages.filter((_, i) => i !== index));
     };
 
     const handleImageChange = (e) => {
@@ -132,7 +134,6 @@ const AddProduct = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         const formData = new FormData();
         formData.append('name', product.name);
         formData.append('description', product.description);
@@ -151,7 +152,7 @@ const AddProduct = () => {
             formData.append(`galeries[${index}][thumbnail]`, galery.thumbnail);
             formData.append(`galeries[${index}][description]`, galery.description);
         });
-        console.log('Request data:', Object.fromEntries(formData.entries()));
+        // console.log('Request data:', Object.fromEntries(formData.entries()));
         api.post('/product', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',

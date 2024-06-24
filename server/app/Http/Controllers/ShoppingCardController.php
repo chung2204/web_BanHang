@@ -13,18 +13,14 @@ class ShoppingCardController extends Controller
 {
     public function addItem(Request $request)
     {
-        // Lấy users_id từ request
         $users_id = $request->input('users_id');
 
-        // Kiểm tra xem users_id có tồn tại không
         if (!$users_id) {
             return response()->json(['message' => 'User ID not provided'], 400);
         }
 
-        // Tìm hoặc tạo giỏ hàng cho người dùng hiện tại
         $shoppingCard = ShoppingCard::firstOrCreate(['users_id' => $users_id]);
 
-        // Thêm sản phẩm vào giỏ hàng hoặc cập nhật nếu sản phẩm đã có trong giỏ
         $item = ShoppingCardItem::updateOrCreate(
             [
                 'shopping_cards_id' => $shoppingCard->shopping_cards_id,
@@ -38,8 +34,6 @@ class ShoppingCardController extends Controller
                 'total' => \DB::raw('total + ' . $request->input('total'))
             ]
         );
-
-        // Cập nhật tổng số lượng sản phẩm và tổng giá trị giỏ hàng
         $shoppingCard->total_product += $request->input('total');
         $shoppingCard->total_prices += $request->input('total') * $request->input('prices');
         $shoppingCard->save();
@@ -127,13 +121,12 @@ class ShoppingCardController extends Controller
         if (!$userId) {
             return response()->json(['message' => 'User ID not provided'], 400);
         }
-    
         $shoppingCard = ShoppingCard::where('users_id', $userId)->first();
     
         if (!$shoppingCard) {
             return response()->json(['message' => 'Shopping card not found'], 404);
         }
-    
+
         $item = $shoppingCard->items()->where('shopping_card_items_id', $itemId)->first();
         if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
@@ -141,12 +134,9 @@ class ShoppingCardController extends Controller
     
         $item->total = $request->input('total');
         $item->save();
-    
-        // Cập nhật tổng số sản phẩm và giá
         $shoppingCard->total_product = $shoppingCard->items()->sum('total');
         $shoppingCard->total_prices = $shoppingCard->items()->sum(DB::raw('total * prices'));
         $shoppingCard->save();
-    
         return response()->json(['shoppingCard' => $shoppingCard, 'message' => 'Item updated successfully']);
         
     }
@@ -157,25 +147,19 @@ class ShoppingCardController extends Controller
         if (!$userId) {
             return response()->json(['message' => 'User ID not provided'], 400);
         }
-    
         $shoppingCard = ShoppingCard::where('users_id', $userId)->first();
     
         if (!$shoppingCard) {
             return response()->json(['message' => 'Shopping card not found'], 404);
         }
-    
         $item = $shoppingCard->items()->where('shopping_card_items_id', $itemId)->first();
         if (!$item) {
             return response()->json(['message' => 'Item not found'], 404);
         }
-    
         $item->delete();
-    
-        // Cập nhật tổng số sản phẩm và giá
         $shoppingCard->total_product = $shoppingCard->items()->sum('total');
         $shoppingCard->total_prices = $shoppingCard->items()->sum(DB::raw('total * prices'));
         $shoppingCard->save();
-    
         return response()->json(['shoppingCard' => $shoppingCard, 'message' => 'Item removed successfully']);
     }
 }

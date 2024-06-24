@@ -102,7 +102,6 @@ class ProductController extends Controller
             'brands_id' => 'required|exists:brands,brands_id',
             'product_categories_id' => 'required|exists:product_categories,product_categories_id'
         ]);
-
         $product = new Product();
         $product->name = $request->input('name');
         $product->description = $request->input('description');
@@ -110,13 +109,11 @@ class ProductController extends Controller
         $product->quantity = $request->input('quantity');
         $product->brands_id = $request->input('brands_id');
         $product->product_categories_id = $request->input('product_categories_id');
-
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
             $product->image = 'images/' . $imageName;
         }
-
         $product->save();
         $detail = $request->input('details');
         if(isset($detail)){
@@ -128,7 +125,6 @@ class ProductController extends Controller
                 $productDetail->save();
             }  
         }
-      
         $gale = $request->input('galeries', []);
         $galery = $request->input('galeries');
         if(isset($galery)){
@@ -141,14 +137,12 @@ class ProductController extends Controller
                     $galeryModel->thumbnail = 'images/' . $thumbnailName;
                 }
                 
-                // Sử dụng chỉ số của mảng để truy cập vào mỗi phần tử của $gale
                 $galeryModel->description = $gale[$index]['description'] ?? "";
                 $galeryModel->products_id = $product->products_id;
                 $galeryModel->save();
             }
         }
         
-
         return response()->json($product, 201);
     }
 
@@ -179,7 +173,6 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:products,name,' . $id . ',products_id',
-           
             'description' => 'required|string',
             'prices' => 'required|numeric',
             'quantity' => 'required|integer',
@@ -190,7 +183,6 @@ class ProductController extends Controller
         ]);
       
         $requestData = $request->all();
-        // Tìm sản phẩm
         $product = Product::findOrFail($id);
         $product->name = $request->input('name');
         $product->description = $request->input('description');
@@ -198,13 +190,11 @@ class ProductController extends Controller
         $product->quantity = $request->input('quantity');
         $product->brands_id = $request->input('brands_id');
         $product->product_categories_id = $request->input('product_categories_id');
-    
-        // if ($request->hasFile('image')) {
-        //     $imageName = time() . '_' . $request->image->extension();
-        //     $request->file('image')->move(public_path('images'), $imageName);
-        //     $product->image = 'images/' . $imageName;
-        // }
-    
+        if ($request->hasFile('image')) {
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $product->image = 'images/' . $imageName;
+        }
         $product->save();
         $details = $request->input('details', []);
         if(isset($details)){

@@ -140,6 +140,7 @@ const UpdateProduct = () => {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (img) {
             const requestData = {
                 name: product.name,
@@ -162,7 +163,8 @@ const UpdateProduct = () => {
                 }).catch((error) => {
                     toast.error('Lỗi cập nhật sản phẩm');
                 });
-        } else {
+        }
+        else {
             const requestData = {
                 name: product.name,
                 description: product.description,
@@ -223,7 +225,7 @@ const UpdateProduct = () => {
                     Quay lại</Link>
             </div>
             <div className='form-addProduct'>
-                <form onSubmit={handleSubmit} encType="multipart/form-data" className='form-left'>
+                <form onSubmit={handleSubmit} className='form-left'>
                     <div>
                         <label>Tên sản phẩm</label>
                         <input className='name' required type="text" name="name" value={product.name} onChange={handleChange} />
@@ -261,10 +263,10 @@ const UpdateProduct = () => {
                             </select>
                         </div>
                     </div>
-                    {/* <div>
+                    <div>
                         <label>Ảnh sản phẩm</label> <br />
                         <input type="file" name="image" onChange={handleImageChange} />
-                    </div> */}
+                    </div>
                     <div>
                         <div className='title'>
                             <h3>Chi tiết sản phẩm</h3>

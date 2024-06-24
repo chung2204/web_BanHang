@@ -148,13 +148,14 @@ const ShoppingCard = () => {
                 api.delete(`/deleteCard/${shopCard.shopping_cards_id}`)
                     .then(() => {
                         fetchCard();
+                        fetchShoppingCard();
+
                     })
                     .catch(error => {
                         console.error(error);
 
                     });
                 toast.success('Đặt hàng thành công')
-
             })
             .catch(error => {
                 console.error(error);

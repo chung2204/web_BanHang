@@ -238,7 +238,7 @@ const AddProduct = () => {
                     </div>
                     <div className='title'>
                         <h3>Chi tiết sản phẩm</h3>
-                        <button className='btn-addDetails' type="button" onClick={addDetail}> <img src={ic_add} alt="" style={{ width: '18px' }} /> Add Detail</button>
+                        <button className='btn-addDetails' type="button" onClick={addDetail}> <img src={ic_add} alt="" style={{ width: '18px' }} />Thêm thông số</button>
                     </div>
                     {product.details.map((detail, index) => (
                         <div key={index} className='details-product'>

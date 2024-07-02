@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('prices');
             $table->integer('total_product');
             $table->unsignedBigInteger('shop_orders_id');
+            $table->unsignedBigInteger('products_id');
             $table->foreign('shop_orders_id')->references('shop_orders_id')->on('shop_orders')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

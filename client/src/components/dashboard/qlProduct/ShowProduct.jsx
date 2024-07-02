@@ -36,7 +36,6 @@ const ShowProduct = () => {
             api.delete(`/product/${id}`)
                 .then(() => {
                     setProducts(products.filter(products => products.products_id !== id));
-
                     toast.success(`Xoá sản phẩm ${username} thành công`);
                 })
                 .catch(error => {
@@ -90,6 +89,7 @@ const ShowProduct = () => {
                             <h3>{product.name}</h3>
                             <p style={{ color: 'red', fontSize: "18px", fontWeight: "700", margin: "0" }}> {formatCurrency(product.prices)}</p>
                             <p>Số lượng: {product.quantity}</p>
+                            <p style={{ marginTop: "0" }}>Đã bán: {product.sold_product}</p>
                             <div className="ctr">
                                 <div className="btn-update"> <Link to={`/admin/showProduct/updateProduct/${product.products_id}`}>chi tiết</Link></div>
                                 <button onClick={() => deleteProduct(product.products_id, product.name)} className="btn-delete"> xóa </button>

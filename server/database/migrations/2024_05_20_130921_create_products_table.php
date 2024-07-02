@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('prices');
             $table->string('image');
             $table->string('quantity');
+            $table->integer('sold_product')->default(0);
             $table->unsignedBigInteger('brands_id');
             $table->unsignedBigInteger('product_categories_id');
             $table->foreign('product_categories_id')->references('product_categories_id')->on('product_categories')->onUpdate('cascade');

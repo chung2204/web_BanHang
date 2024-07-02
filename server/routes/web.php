@@ -49,9 +49,11 @@ Route::apiResource('brand', BrandController::class);
 
 Route::apiResource('product', ProductController::class);
 Route::get('getproduct', [ProductController::class, 'getProductsNew']);
+Route::get('soldproduct', [ProductController::class, 'soldProducts']);
 Route::get('getproductbycategory/{categoryId?}', [ProductController::class, 'getProductsByCategory']);
 Route::post('updatetotal', [ProductController::class, 'updateTotal']);
 Route::post('updatetotal2', [ProductController::class, 'updateTotal2']);
+Route::post('updatetotal3', [ProductController::class, 'updateTotal3']);
 Route::post('updateproduct/{id}', [ProductController::class, 'updateproduct']);
 
 Route::apiResource('product_details', ProductDetailsController::class);

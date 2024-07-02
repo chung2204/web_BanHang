@@ -57,11 +57,28 @@ class ProductController extends Controller
         if (isset($details)) {
             foreach ($details as $billDetails) {
                 foreach ($billDetails as $detail) {
-                   
-                    $product = Product::where('name', $detail['name'])->first();
+                    $product = Product::where('products_id', $detail['products_id'])->first();
                     if ($product) {
                         $product->update([
                             'quantity' => $product->quantity + $detail['total']
+                        ]);
+                    }
+                }
+            }
+        }
+
+        return response()->json($details);
+    }
+    public function updateTotal3(Request $request)
+    {
+        $details = $request->input('details');
+        if (isset($details)) {
+            foreach ($details as $billDetails) {
+                foreach ($billDetails as $detail) {
+                    $product = Product::where('products_id', $detail['products_id'])->first();
+                    if ($product) {
+                        $product->update([
+                            'sold_product' => $product->sold_product + $detail['total']
                         ]);
                     }
                 }
@@ -77,19 +94,63 @@ class ProductController extends Controller
     {
         //
     }
-    public function getProductsByCategory($categoryId = null)
+    public function getProductsByCategory(Request $request,$categoryId = null)
     {
+        $query = Product::query();
+
         if ($categoryId) {
-            $products = Product::where('product_categories_id', $categoryId)->orderBy('created_at', 'desc')->get();
-        } else {
-            $products = Product::orderBy('created_at', 'desc')->get();
+            $query->where('product_categories_id', $categoryId);
         }
-        
+    
+        if ($request->has('sort')) {
+            switch ($request->sort) {
+                case 'new':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                case 'bestseller':
+                    $query->orderBy('sold_product', 'desc');
+                    break;
+                case 'price_asc':
+                    $query->orderBy('prices', 'asc');
+                    break;
+                case 'price_desc':
+                    $query->orderBy('prices', 'desc');
+                    break;
+            }
+        }
+        if ($request->has('price')) {
+            switch ($request->price) {
+                case 'under3milliom':
+                    $query->where('prices', '<', 3000000);
+                    break;
+                case '3to5million':
+                        $query->whereBetween('prices', [3000000, 5000000]);
+                    break;
+                case '5to10million':
+                    $query->whereBetween('prices', [5000000, 10000000]);
+                    break;
+                case 'over10million':
+                    $query->where('prices', '>', 10000000);
+                    break;
+            } 
+        }
+    
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+    
+        $products = $query->get();
+    
         return response()->json($products);
     }
     public function getProductsNew()
     {
         $products = Product::orderBy('created_at', 'desc')->take(10)->get();
+        return response()->json($products);
+    }
+    public function soldProducts()
+    {
+        $products = Product::orderBy('sold_product', 'desc')->take(10)->get();
         return response()->json($products);
     }
     public function store(Request $request)

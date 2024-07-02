@@ -46,12 +46,13 @@ body {
             cursor: pointer;
 
             ul {
-                width: 100%;
                 position: absolute;
                 background-color: white;
                 list-style-type: none;
                 margin-top: 15px;
-                padding: 10px 15px;
+                margin-left: -30px;
+                overflow: hidden;
+                padding: 0;
                 display: none;
                 box-shadow: 0 0 20px 10px rgba(0, 0, 0, .1);
                 border-radius: 10px;
@@ -61,9 +62,9 @@ body {
                 }
 
                 li {
-                    width: 100%;
+                    white-space: nowrap;
                     color: black;
-                    margin: 15px 20px;
+                    margin: 15px 30px;
                 }
 
                 .sub-menu-item {
@@ -852,76 +853,125 @@ body {
     }
 
     .product-items {
-        width: 100%;
-        max-width: 1250px;
-        margin: 0 auto;
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-        box-sizing: border-box;
+        flex-wrap: nowrap;
         overflow: hidden;
+        width: 100%;
+        margin: 0 auto;
 
-        .item-product {
-            width: 25%;
-            padding: 0 20px 50px 20px;
-            background: transparent;
-            box-sizing: border-box;
-            overflow: hidden;
-
-            .container:hover img {
-                transform: translateY(-15px);
-            }
+        .search {
+            width: 20%;
+            padding-left: 30px;
 
             .container {
-                padding: 50px 20px;
-                background-color: #fdfdfd;
-                box-sizing: border-box;
-                overflow: hidden;
-                text-align: center;
-                border-radius: 15px;
-                box-shadow: 2px 2px 15px -3px aqua;
+                width: 100%;
 
-                img {
-                    width: 100%;
-                    height: 225px;
-                    transition: all .3s;
+                h2 {
+                    margin-top: 0;
                 }
 
-                p {
-                    color: red;
-                    font-size: 20px;
-                    font-weight: 700;
+                .search-product {
+                    padding: 5px 10px;
+                    border-radius: 20px;
+                    width: 80%;
+                    font-size: 16px;
                 }
 
-                h3 {
-                    overflow: hidden;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 2;
-                    -webkit-box-orient: vertical;
-                    text-overflow: ellipsis;
-                    height: 44px;
-                }
-
-                .link-productdetail {
-                    width: 150px;
-                    margin: 0 auto;
-                    margin-bottom: 10px;
-                    background: linear-gradient(270deg, #70efd1 0%, #1bc1c1 100%);
-                    padding: 10px;
-                    border-radius: 10px;
+                select {
+                    margin: 10px;
+                    padding: 5px;
+                    border-radius: 15px;
                     cursor: pointer;
+                }
 
-                    a {
-                        color: white;
-                        text-decoration: none;
-                        font-size: 16px;
-                        font-weight: 600;
+                .filter-price {
+                    margin-bottom: 20px;
+
+                    input {
+                        margin: 4px 0px 10px 60px;
+                    }
+
+                    label {
+                        margin: 5px;
                     }
                 }
+            }
+        }
 
+        .product {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            box-sizing: border-box;
+            overflow: hidden;
+            padding: 0 30px;
+
+            .item-product {
+                width: 25%;
+                padding: 0 10px 50px 10px;
+                background: transparent;
+                box-sizing: border-box;
+                overflow: hidden;
+
+                .container:hover img {
+                    transform: translateY(-15px);
+                }
+
+                .container {
+                    padding: 20px;
+                    background-color: #fdfdfd;
+                    box-sizing: border-box;
+                    overflow: hidden;
+                    text-align: center;
+                    border-radius: 15px;
+                    box-shadow: 2px 2px 15px -3px aqua;
+
+                    img {
+                        width: 100%;
+                        height: 225px;
+                        transition: all .3s;
+                    }
+
+                    p {
+                        color: red;
+                        font-size: 20px;
+                        font-weight: 700;
+                    }
+
+                    h3 {
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        text-overflow: ellipsis;
+                        height: 44px;
+                    }
+
+                    .link-productdetail {
+                        width: 150px;
+                        margin: 0 auto;
+                        margin-bottom: 10px;
+                        background: linear-gradient(270deg, #70efd1 0%, #1bc1c1 100%);
+                        padding: 10px;
+                        border-radius: 10px;
+                        cursor: pointer;
+
+                        a {
+                            color: white;
+                            text-decoration: none;
+                            font-size: 16px;
+                            font-weight: 600;
+                        }
+                    }
+
+                }
             }
         }
     }
+
 }
 
 .bill-page {
@@ -933,10 +983,9 @@ body {
     .container {
         width: 100%;
         margin: 0 auto;
-        max-width: 750px;
 
         hr {
-            margin: 50px 0;
+            margin: 20px 0;
         }
 
         .item-bill {

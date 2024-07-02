@@ -31,7 +31,7 @@ const Header = () => {
                     {user ? (
                         <>
                             <div className="menu-item">
-                                <span>Welcome, {getLastWord(user.name)}</span>
+                                <span>{getLastWord(user.name)}</span>
                                 <ul>
 
                                     <li>  <NavLink to={`user/${user.users_id}`} className={({ isActive }) => "sub-menu-item" + (isActive ? ' act-nav' : '')}>Tài khoản</NavLink></li>

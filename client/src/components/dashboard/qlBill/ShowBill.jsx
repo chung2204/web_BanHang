@@ -27,6 +27,7 @@ const ShowBill = () => {
     }, [searchTerm]);
     const handleChange = (shop_orders_id) => (e) => {
         const formData = new FormData();
+        const formData2 = new FormData();
         const { value } = e.target;
         if (value === "Từ chối") {
             bills.forEach((bill, billIndex) => {
@@ -34,6 +35,7 @@ const ShowBill = () => {
                     bill.orderdetails.forEach((detail, detailIndex) => {
                         formData.append(`details[${billIndex}][${detailIndex}][name]`, detail.name_product);
                         formData.append(`details[${billIndex}][${detailIndex}][total]`, detail.total_product);
+                        formData.append(`details[${billIndex}][${detailIndex}][products_id]`, detail.products_id);
                     });
                 }
             });
@@ -71,6 +73,26 @@ const ShowBill = () => {
                     console.error(error);
                     toast.error('lỗi cập nhật trạng thái đơn hàng');
                 });
+            if (value === "Hoàn Thành") {
+                bills.forEach((bill, billIndex) => {
+                    if (bill.orderdetails && bill.shop_orders_id === shop_orders_id) {
+                        bill.orderdetails.forEach((detail, detailIndex) => {
+                            formData2.append(`details[${billIndex}][${detailIndex}][name]`, detail.name_product);
+                            formData2.append(`details[${billIndex}][${detailIndex}][total]`, detail.total_product);
+                            formData2.append(`details[${billIndex}][${detailIndex}][products_id]`, detail.products_id);
+                        });
+                    }
+                });
+                api.post(`/updatetotal3`, formData2)
+                    .then(() => {
+
+                    })
+                    .catch(error => {
+                        console.error(error);
+
+                    });
+
+            }
         }
 
 
@@ -174,6 +196,7 @@ const ShowBill = () => {
                                     ))}
 
                                 </table>
+                                <hr />
                             </>
                         ))}
                         <Pagination

@@ -6,30 +6,31 @@ import { Link } from "react-router-dom";
 const Product = () => {
     const urlImage = process.env.REACT_APP_API_IMAGE_URL;
     const [categories, setCategories] = useState([]);
-    const [selectCategory, setSelectCategory] = useState(null);
+    const [selectCategory, setSelectCategory] = useState('all');
     const [products, setProducts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage, setPerPage] = useState(8);
     const [loading, setLoading] = useState(true);
+    const [sortOption, setSortOption] = useState('new');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [clickPrice, setClickPrice] = useState('');
     useEffect(() => {
         fetchCategories();
-        const fetchProducts = async () => {
-            try {
-                if (selectCategory !== null && selectCategory !== 'all') {
-                    const response = await api.get(`/getproductbycategory/${selectCategory}`);
-                    setProducts(response.data);
-                } else {
-                    const response = await api.get(`/getproductbycategory`);
-                    setProducts(response.data);
-                }
-
-            } catch (error) {
-                console.error("There was an error fetching the products!", error);
-            }
-        };
-
         fetchProducts();
-    }, [selectCategory]);
+    }, [selectCategory, sortOption, searchQuery, clickPrice]);
+    const fetchProducts = async () => {
+        try {
+            let url = `/getproductbycategory?sort=${sortOption}&search=${searchQuery}&price=${clickPrice}`;
+            if (selectCategory !== null && selectCategory !== 'all') {
+                url = `/getproductbycategory/${selectCategory}?sort=${sortOption}&search=${searchQuery}&price=${clickPrice}`;
+            }
+
+            const response = await api.get(url);
+            setProducts(response.data);
+        } catch (error) {
+            console.error("There was an error fetching the products!", error);
+        }
+    };
     const slideProductPage = {
         dots: false,
         infinite: true,
@@ -105,6 +106,16 @@ const Product = () => {
             behavior: 'smooth'
         });
     };
+    const handleSortChange = (e) => {
+        setSortOption(e.target.value);
+    }
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    }
+    const handleClickPrice = (e) => {
+        setClickPrice(e.target.value);
+    }
     if (loading) {
         return <div style={{ width: "100%", textAlign: "center" }}>Loading...</div>;
     }
@@ -125,21 +136,51 @@ const Product = () => {
                         </Slider>
                         : ""}
                     <div className='product-items'>
-                        {currentUsers.map(product => (
-                            <>
-                                <div key={product.products_id} className='item-product' data-aos="fade-up">
-                                    <div className='container'>
-                                        <img src={urlImage + product.image} alt={product.name} />
-                                        <h3>{product.name}</h3>
-                                        <p>{formatCurrency(product.prices)}</p>
-                                        <div className='link-productdetail'>
-                                            <Link to={`/productdetail/${product.products_id}`} onClick={handleScrollToTop}>Chi tiết</Link>
-                                        </div>
-
-                                    </div>
+                        <div className='search'>
+                            <div className='container'>
+                                <h2>Tất cả sản phẩm</h2>
+                                <input className='search-product' type="text" placeholder='Tìm kiếm sản phẩm' onChange={handleSearchChange} />
+                                <div> Sắp xếp
+                                    <select name="" id="" onChange={handleSortChange}>
+                                        <option selected value="new">Hàng mới</option>
+                                        <option value="bestseller">Bán chạy</option>
+                                        <option value="price_asc">Giá thấp đến cao</option>
+                                        <option value="price_desc">Giá cao đến thấp</option>
+                                    </select>
                                 </div>
-                            </>
-                        ))}
+                                <div className='filter-price'> Giá từ: <br />
+                                    <input defaultChecked name="price" type="radio" value="all" onClick={handleClickPrice} />
+                                    <label for="html">Tất cả</label> <br />
+                                    <input name="price" type="radio" value="under3milliom" onClick={handleClickPrice} />
+                                    <label for="html">Dưới 3 triệu</label> <br />
+                                    <input name="price" type="radio" value="3to5million" onClick={handleClickPrice} />
+                                    <label for="css">Từ 3 triệu đến 5 triệu</label> <br />
+                                    <input name="price" type="radio" value="5to10million" onClick={handleClickPrice} />
+                                    <label for="javascript">Từ 5 triệu đến 10 triệu</label> <br />
+                                    <input name="price" type="radio" value="over10million" onClick={handleClickPrice} />
+                                    <label for="javascript">Trên 10 triệu</label>
+                                </div>
+                                <img style={{ width: "100%", height: "auto" }} src="https://salt.tikicdn.com/ts/tka/49/f0/15/c4c11176b3712a417b0d1742695f3569.png" alt="" />
+                            </div>
+                        </div>
+                        <div className='product'>
+                            {currentUsers.map(product => (
+                                <>
+                                    <div key={product.products_id} className='item-product' data-aos="fade-up">
+                                        <div className='container'>
+                                            <img src={urlImage + product.image} alt={product.name} />
+                                            <h3 style={{ marginBottom: "0" }}>{product.name}</h3>
+                                            <span>Đã bán: {product.sold_product}</span>
+                                            <p>{formatCurrency(product.prices)}</p>
+                                            <div className='link-productdetail'>
+                                                <Link to={`/productdetail/${product.products_id}`} onClick={handleScrollToTop}>Chi tiết</Link>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </>
+                            ))}
+                        </div>
                     </div>
                     <Pagination
                         usersPerPage={usersPerPage}

@@ -34,11 +34,19 @@ const Home = () => {
         ]
     };
     const [products, setProducts] = useState([]);
+    const [soldproducts, setSoldProducts] = useState([]);
 
     useEffect(() => {
         api.get('/getproduct')
             .then(response => {
                 setProducts(response.data);
+            })
+            .catch(error => {
+                console.error(" error fetching the latest products!", error);
+            });
+        api.get('/soldproduct')
+            .then(response => {
+                setSoldProducts(response.data);
             })
             .catch(error => {
                 console.error(" error fetching the latest products!", error);
@@ -120,9 +128,9 @@ const Home = () => {
                             ))}
                         </Slider>
 
-                        <h2 className="title-listproduct">Sản phẩm nổi bật</h2>
+                        <h2 className="title-listproduct" style={{ marginTop: "50px" }}>Sản phẩm bán chạy</h2>
                         <Slider {...settingSlide}>
-                            {products.map(product => (
+                            {soldproducts.map(product => (
                                 <div className='item-product' data-aos="fade-up">
                                     <li key={product.products_id}>
                                         <img src={urlImage + product.image} alt={product.name} />

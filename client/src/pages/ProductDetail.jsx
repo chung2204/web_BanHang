@@ -209,6 +209,7 @@ const ProductDetail = () => {
                             {brands === null ? "" :
                                 <> <p>{brands.name} tại : {brands.address}</p> </>
                             }
+                            <p>Số lượng đã bán: {product.sold_product}</p>
                             <p>Số lượng hàng trong kho: {product.quantity}</p>
                             <div className='add-card' onClick={() => handleAddToCart(product)}>Thêm vào giỏ hàng</div>
                             <h3>Thông tin mô tả :</h3>

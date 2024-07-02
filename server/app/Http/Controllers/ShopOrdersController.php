@@ -49,6 +49,7 @@ class ShopOrdersController extends Controller
                 $orderDetail->prices = $detail['prices'];
                 $orderDetail->total_product = $detail['total_product'];
                 $orderDetail->shop_orders_id  = $order->shop_orders_id ;
+                $orderDetail->products_id  = $detail['products_id'];
                 $orderDetail->save();
             }  
         }

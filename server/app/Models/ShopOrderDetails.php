@@ -14,7 +14,8 @@ class ShopOrderDetails extends Model
         'image',  
         'prices',  
         'total_product', 
-        'shop_orders_id ',     
+        'shop_orders_id',     
+        'products_id',     
     ];
     public function order(){
         return $this->belongsTo(User::class,'shop_orders_id');

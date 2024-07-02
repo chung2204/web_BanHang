@@ -42,6 +42,7 @@ const Bill = () => {
                 bill.orderdetails.forEach((detail, detailIndex) => {
                     formData.append(`details[${billIndex}][${detailIndex}][name]`, detail.name_product);
                     formData.append(`details[${billIndex}][${detailIndex}][total]`, detail.total_product);
+                    formData.append(`details[${billIndex}][${detailIndex}][products_id]`, detail.products_id);
                 });
             }
         });
@@ -87,7 +88,7 @@ const Bill = () => {
     return (
         <>
             <div className='bill-page'>
-                <div className='container'>
+                <div className='container' style={{ maxWidth: "1000px" }}>
                     {currentUsers.map(bill => (
                         <>
                             <div key={bill.shop_orders_id} className='item-bill'>
@@ -122,6 +123,7 @@ const Bill = () => {
                                                 <div>Người nhận: {bill.full_name}  -- Số điện thoại: {bill.phone}</div>
                                                 <div>Email: {bill.email}  -- Ngày mua: {convertedDate(bill.date_order)}</div>
                                                 <div>Địa chỉ: {bill.address}</div>
+                                                <div>Giảm giá: {bill.voucher}</div>
                                                 {bill.status_order === "Chờ duyệt" ? <><div className='btn-unbill' onClick={() => handleOnclick(bill.shop_orders_id)}>Huỷ đơn hàng</div></> : ""}
                                                 <div className='status-bill' onClick={() => hideDetail()}>Ẩn bớt</div>
                                             </div>

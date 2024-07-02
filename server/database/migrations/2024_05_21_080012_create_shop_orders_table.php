@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('total_prices');
             $table->integer('total_product');
             $table->string('status_order',100);
+            $table->text('voucher')->default('không áp dụng mã giảm giá');
             $table->unsignedBigInteger('users_id');
             $table->foreign('users_id')->references('users_id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
